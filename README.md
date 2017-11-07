@@ -121,7 +121,8 @@ const list = await usersDB.find(where || null, options);
 ## Native connections | Нативные подключения
 
 In case you need to create your own flexible connection using **mongodb native**, use the code from the example.
-<>
+
+
 В случае, если потребуется создать свое гибкое подключение с помощью **mongodb native**, используете код из примера.
 
 https://github.com/deviun/just-mongo/blob/master/test/native.connection.js
