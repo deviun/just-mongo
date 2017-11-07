@@ -55,7 +55,8 @@ const $mongo = new $JMongo({
   "host": "127.0.0.1",
   "user": "username",
   "password": "password for db",
-  "port": "27017"
+  "port": "27017",
+  "replica": "http://mongodb.github.io/node-mongodb-native/2.0/tutorials/connecting/"
 }
 ```
 
