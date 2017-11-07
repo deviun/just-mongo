@@ -17,7 +17,14 @@ const authDefault = {
 };
 
 class JMongo {
-  constructor (connection, cb) {
+  constructor (connection, cb, setConnection) {
+    if (setConnection) {
+      return Object.assign(this, {
+        connection: setConnection,
+        models: new $Model(_.get(connection, 'models'))
+      });
+    }
+
     Object.assign(this, {
       connectionConfig: Object.assign({}, {
         host: _.get(connection, 'host', authDefault.host),
@@ -40,6 +47,12 @@ class JMongo {
     const dataValidator = this.models.createValidator(name);
 
     return new $Collection(this.connection, dataValidator, name);
+  }
+
+  static nativeConnection (models, sandbox) {
+    const nConnection = new $Connection(null, null, sandbox);
+
+    return new JMongo({models}, null, nConnection);
   }
 
 }

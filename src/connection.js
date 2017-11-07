@@ -6,7 +6,19 @@ const $log = require($path.resolve(ROOT, 'src/libs/log'));
 const $mongodb = require('mongodb');
 
 class Connection {
-  constructor (config, cb) {
+  constructor (config, cb, nativeSandbox) {
+    if (nativeSandbox) {
+      const resolve = (db) => {
+        this.db = db;
+      };
+
+      const reject = (err) => {
+        $log.error('[%s]', moduleName, err);
+      };
+
+      return nativeSandbox(resolve, reject);
+    }
+
     this.db = false;
 
     const connectionURI = `mongodb://${!config.user ? '' : `${config.user}:${config.password}@`}${config.host}:${config.port}/${config.db}`;
