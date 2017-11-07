@@ -117,3 +117,11 @@ const list = await usersDB.find(where || null, options);
 > `options` для `find` указаны в объекте, метод не является курсором. Чтобы использовать курсор, используйте API mongodb native
 
 [More examples | Больше примеров](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js)
+
+## Native connections | Нативные подключения
+
+In case you need to create your own flexible connection using **mongodb native**, use the code from the example.
+<>
+В случае, если потребуется создать свое гибкое подключение с помощью **mongodb native**, используете код из примера.
+
+https://github.com/deviun/just-mongo/blob/master/test/native.connection.js
