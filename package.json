@@ -1,6 +1,6 @@
 {
   "name": "just-mongo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,16 @@
     "lodash": "4.17.4",
     "mongodb": "2.2.33",
     "winston": "2.4.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deviun/just-mongo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deviun/just-mongo/issues"
+  },
+  "homepage": "https://github.com/deviun/just-mongo#readme"
 }
