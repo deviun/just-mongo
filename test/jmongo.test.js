@@ -9,7 +9,7 @@ const models = {
     name: { // правила для поля name
       type: String, // Тип данных
       // функция, проверяющая валидацию данных в поле name
-      isValid: (value) => { return ( String(value).split(' ').length === 1 ) }
+      isValid: (value) => ( String(value).split(' ').length === 1  )
     },
     age: Number, // просто указываем тип данных 
     id: {
