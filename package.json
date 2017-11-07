@@ -1,0 +1,28 @@
+{
+  "name": "just-mongo",
+  "version": "1.0.0",
+  "description": "Just using mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/jmongo.test"
+  },
+  "keywords": [
+    "mongo",
+    "mongodb"
+  ],
+  "author": "Anton Danilov",
+  "engines": {
+    "node": ">= 7.0.0"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "8.0.2",
+    "eslint": "4.10.0"
+  },
+  "dependencies": {
+    "bluebird": "3.5.1",
+    "lodash": "4.17.4",
+    "mongodb": "2.2.33",
+    "winston": "2.4.0"
+  }
+}
