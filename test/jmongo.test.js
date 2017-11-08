@@ -47,7 +47,7 @@ async function createUsers () {
       age: 32,
       ban: true
     }, {
-      name: 'Sergey',
+      name: 'Andrew',
       age: 21
     }
   ];
