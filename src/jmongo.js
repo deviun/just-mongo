@@ -1,5 +1,4 @@
 const ROOT = `${__dirname}/../`;
-const moduleName = 'jmongo.jmongo';
 
 const _ = require('lodash');
 

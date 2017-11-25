@@ -4,7 +4,8 @@
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "node test/jmongo.test"
+    "test": "node test/jmongo.test",
+    "lint": "eslint ."
   },
   "keywords": [
     "mongo",
