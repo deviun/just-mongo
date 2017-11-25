@@ -133,8 +133,8 @@ await Users.deleteMany({ age: 10 }, { wtimeout: 25 });
 
 ```javascript
 const item = await Users.findOne({ age: 15 }, { limit: 5 });
+const items = await Users.find({});
 const itemsCount = await Users.count({ age: 15 }, { maxTimeMS: 2500 });
-const list = await Users.find({});
 ```
 
 There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js).
