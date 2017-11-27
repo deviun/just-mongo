@@ -30,7 +30,7 @@ class Collection {
 
       const checkConnection = async () => {
         isConnection = await this.connection.isConnection();
-  
+
         if (isConnection) {
           return resolve(true);
         } else {
@@ -65,7 +65,7 @@ class Collection {
       list = [list];
     } else if (!isObject) {
       const newError = 'list for insert not is Object or Array of Object';
-      
+
       $log.error('[%s]', moduleName, newError);
 
       throw new Error(newError);
@@ -109,7 +109,7 @@ class Collection {
 
     return await this.collection.findOne(query, options);
   }
-  
+
   async find (query, options) {
     await this.checkConnection();
 
@@ -136,7 +136,7 @@ class Collection {
 
   async updateOne (filter, update, options) {
     await this.checkConnection();
-    
+
     $log.debug('[%s][updateOne] filter:', moduleName, filter, {
       update
     });
@@ -150,7 +150,7 @@ class Collection {
 
   async updateMany (filter, update, options) {
     await this.checkConnection();
-    
+
     $log.debug('[%s][updateMany] filter:', moduleName, filter, {
       update
     });

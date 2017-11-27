@@ -1,128 +1,148 @@
-# Just MongoDB
+[![just-mongo](https://img.shields.io/npm/v/just-mongo.svg?style=flat-square)](https://www.npmjs.com/package/just-mongo/)
 
-Wrapper for mongodb for Node.js | Простая обертка над MongoDB native
+# just-mongo
 
-##### Create models for collections | Создание моделей для коллекций
+Wrapper for MongoDB.
+
+## Install
+
+```sh
+$ npm i just-mongo
+```
+
+## Tests
+
+```sh
+$ npm test
+```
+
+## Docs
+
+### Create models
 
 ```javascript
-
 const models = {
   users: {
-    name: { // правила для поля name
-      type: String, // Тип данных
-      // функция, проверяющая валидацию данных в поле name
-      isValid: (value) => { return ( String(value).split(' ').length === 1 ) }
+    name: {
+      type: String,
+      isValid: (value) => String(value).split(' ').length === 1
     },
-    age: Number, // просто указываем тип данных 
+    age: Number,
     id: {
       type: Number,
-      required: true, // требование к полю
+      required: true
     },
     ban: {
       type: Boolean,
-      default: false // указываем значение по умочанию, если поле не указано
+      default: false
     }
   }
 };
-
 ```
 
-##### Create connection to MongoDB | Создание подключения к MongoDB
+### Create connection
+
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| models | object | yes | - |
+| db | string | yes | '' |
+| host | string | no | localhost |
+| user | string | no | '' |
+| password | string | no | '' |
+| port | number/string | no | 27017 |
+
 
 ```javascript
+const JustMongo = require('just-mongo');
 
-const $JMongo = require('just-mongo');
-const $mongo = new $JMongo({
+const mongo = new JustMongo({
   models,
-  db: 'you_database'
-}, function (err, ok) {
+  db: 'database'
+}, (err, done) => {
   if (err) {
-    $log.info(err);
+    console.error(err)
   } else {
-    $log.error({ok});
+    console.log(done)
   }
 });
-
 ```
 
-> At this point, the following options are available for the designer: | На данный момент для конструктора доступны следующие параметры
-
-```json
-
-{
-  "models": {},
-  "db": "you_database",
-  "host": "127.0.0.1",
-  "user": "username",
-  "password": "password for db",
-  "port": "27017",
-  "replica": "http://mongodb.github.io/node-mongodb-native/2.0/tutorials/connecting/"
-}
-```
-
-> All except the `models` has default values | Все, кроме `models` имеет значения по умолчанию
-
-#### Using | Использование
-
-##### Collection | Коллекция
+### Collection
 
 ```javascript
-const usersDB = $mongo.collection('users');
+const Users = mongo.collection('users');
 ```
 
-##### Collection with API mongodb native | Коллекция с API mongodb native
+### Collection [native]
 
 ```javascript
-const usersDB = $mongo.collection('users').collection;
+const Users = mongo.collection('users').collection;
 ```
 
-##### Insert | Создание документов
+### [Insert](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#insert)
+
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| document | object | yes | - |
+| options | object | no | null |
 
 ```javascript
-await usersDB.insert(Object || Array.<Object>, options);
+await Users.insert({ user_id: 1 }, { serializeFunctions: true });
 ```
 
-> `options` support all of the documentation 
-> `options` поддерживает всё из документации
-> http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html
+### [Update](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#update)
 
-##### Update | Обновление документов
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| filter | object | yes | - |
+| document | object | yes | - |
+| options | object | no | null |
 
 ```javascript
-await usersDB.updateOne(where || null, updateObject, options);
-await usersDB.updateMany(where || null, updateObject, options);
+await Users.updateOne({ user_id: 1 }, {
+  $set: {
+    first_name: 'Mikhail'
+  }
+}, { serializeFunctions: false });
+
+await Users.updateMany({ first_name: 'Mikhail' }, {
+  $set: {
+    age: 15
+  }
+}, { w: 1 });
 ```
 
-> `options` support all of the documentation 
+### [Delete](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#deleteMany)
 
-##### Delete | Удаление документов
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| filter | object | yes | - |
+| options | object | no | null |
 
 ```javascript
-await usersDB.deleteOne(where || null, options);
-await usersDB.deleteMany(where || null, options);
+await Users.deleteOne({ first_name: 'Anton' }, { w: 1 });
+await Users.deleteMany({ age: 10 }, { wtimeout: 25 });
 ```
 
-> `options` support all of the documentation 
+### [Find/Count](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find)
 
-##### Find/Count | Получение документов и их кол-во
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| filter | object | yes | - |
+| options | object | no | null |
 
 ```javascript
-const doc = await usersDB.findOne(where || null, options);
-const countDocs = await usersDB.count(where || null, options);
-const list = await usersDB.find(where || null, options);
+const item = await Users.findOne({ age: 15 }, { limit: 5 });
+const items = await Users.find({});
+const itemsCount = await Users.count({ age: 15 }, { maxTimeMS: 2500 });
 ```
 
-> `options` for `find` are specified in the object, the method is not a cursor. To use the cursor, use API mongodb native
+There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js).
 
-> `options` для `find` указаны в объекте, метод не является курсором. Чтобы использовать курсор, используйте API mongodb native
+### Native connections
 
-[More examples | Больше примеров](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js)
+In case you need to create your own flexible connection using **mongodb native**, use the code from the [example](https://github.com/deviun/just-mongo/blob/master/test/native.connection.js).
 
-## Native connections | Нативные подключения
+## License
 
-In case you need to create your own flexible connection using **mongodb native**, use the code from the example.
-
-
-В случае, если потребуется создать свое гибкое подключение с помощью **mongodb native**, используете код из примера.
-
-https://github.com/deviun/just-mongo/blob/master/test/native.connection.js
+ISC.

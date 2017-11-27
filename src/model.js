@@ -28,24 +28,22 @@ class Validator {
         const newError = `validation error: property "${key}" is not found in model ${JSON.stringify(Object.keys(model))}`;
 
         $log.error('[%s]', moduleName, newError);
-        
+
         throw new Error(newError);
       }
     });
-    
+
     Object.keys(model).forEach((key) => {
       const dataOfKey = model[key];
 
       if (typeof dataOfKey === 'function' && _.has(newObject, key)) {
         newObject[key] = dataOfKey(newObject[key]);
-      } else if (typeof dataOfKey === 'object' 
-                 && !(dataOfKey instanceof Array)) 
+      } else if (typeof dataOfKey === 'object'
+                 && !(dataOfKey instanceof Array))
       {
         Object.keys(dataOfKey).forEach((param) => {
           if (this[`_${param}`]) {
-            this[`_${param}`]( newObject, key, 
-                               dataOfKey, dataOfKey[param],
-                               options );
+            this[`_${param}`](newObject, key, dataOfKey, dataOfKey[param], options);
           }
         });
       }
@@ -75,7 +73,7 @@ class Validator {
   _required (object, key, dataOfKey, paramValue, options) {
     if (!_.has(object, key) && _.get(options, 'set', false) === false) {
       const newError = `validation error: property "${key}" is not found in ${JSON.stringify(object)}`;
-      
+
       $log.error('[%s]', moduleName, newError);
 
       throw new Error(newError);
