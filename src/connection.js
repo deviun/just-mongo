@@ -6,16 +6,7 @@ const $log = require($path.resolve(ROOT, 'src/libs/log'));
 const { MongoClient } = require('mongodb');
 
 class Connection {
-  constructor (config, cb, nativeSandbox) {
-    const {
-      user,
-      password,
-      host,
-      port,
-      db,
-      replica: replicaSet
-    } = config;
-
+  constructor ({ user = '', password = '', host = 'localhost', port = 27017, db = '', replica: replicaSet }, cb, nativeSandbox) {
     if (nativeSandbox) {
       const resolve = (db) => {
         this.db = db;
@@ -30,9 +21,7 @@ class Connection {
 
     this.db = false;
 
-    const connectionURI = (user && password)
-      ? `mongodb://${user}:${password}@{host || 'localhost'}:${port || 27017}/${db || ''}`
-      : `mongodb://${host || 'localhost'}:${port || 27017}/${db || ''}`
+    const connectionURI = `mongodb://${user}:${password}@${host}:${port}/${db}`
 
     MongoClient.connect(connectionURI, { replicaSet }, (err, db) => {
       if (err) {
