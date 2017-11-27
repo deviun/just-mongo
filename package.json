@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/jmongo.test",
+    "mocha": "mocha test/connection.js --exit",
     "lint": "eslint ."
   },
   "keywords": [
@@ -18,7 +19,9 @@
   "license": "ISC",
   "devDependencies": {
     "babel-eslint": "8.0.2",
-    "eslint": "4.10.0"
+    "chai": "^4.1.2",
+    "eslint": "4.10.0",
+    "mocha": "^4.0.1"
   },
   "dependencies": {
     "bluebird": "3.5.1",
