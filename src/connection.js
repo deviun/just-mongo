@@ -54,10 +54,10 @@ class Connection {
       }
     });
 
-    return { connectionURI }
+    this.connectionURI = connectionURI;
   }
 
-  async isConnection () {
+  isConnection () {
     return Boolean(this.db);
   }
 }

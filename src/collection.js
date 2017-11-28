@@ -19,7 +19,7 @@ class Collection {
   }
 
   async checkConnection () {
-    let isConnection = await this.connection.isConnection();
+    let isConnection = this.connection.isConnection();
 
     if (isConnection) {
       return true;
@@ -29,7 +29,7 @@ class Collection {
       let checkCount = 0;
 
       const checkConnection = async () => {
-        isConnection = await this.connection.isConnection();
+        isConnection = this.connection.isConnection();
 
         if (isConnection) {
           return resolve(true);
