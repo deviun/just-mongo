@@ -266,4 +266,6 @@ const fns = [
       $log.error(err);
     });
   }
+
+  process.exit();
 })()
