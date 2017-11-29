@@ -81,6 +81,10 @@ class Collection {
   async deleteMany (filter, options) {
     await this.checkConnection();
 
+    if (!filter) {
+      filter = {};
+    }
+
     $log.debug('[%s][deleteMany] filter:', moduleName, filter);
 
     return await this.collection.deleteMany(filter, options);
@@ -88,6 +92,10 @@ class Collection {
 
   async deleteOne (filter, options) {
     await this.checkConnection();
+
+    if (!filter) {
+      filter = {};
+    }
 
     $log.debug('[%s][deleteOne] filter:', moduleName, filter);
 
@@ -97,6 +105,10 @@ class Collection {
   async count (query, options) {
     await this.checkConnection();
 
+    if (!query) {
+      query = {};
+    }
+
     $log.debug('[%s][count] query:', moduleName, query);
 
     return await this.collection.count(query, options);
@@ -105,6 +117,10 @@ class Collection {
   async findOne (query, options) {
     await this.checkConnection();
 
+    if (!query) {
+      query = {};
+    }
+
     $log.debug('[%s][findOne] query:', moduleName, query);
 
     return await this.collection.findOne(query, options);
@@ -112,6 +128,10 @@ class Collection {
 
   async find (query, options) {
     await this.checkConnection();
+
+    if (!query) { // for "false", "null" .etc
+      query = {};
+    }
 
     $log.debug('[%s][find] query:', moduleName, query);
 
@@ -137,6 +157,10 @@ class Collection {
   async updateOne (filter, update, options) {
     await this.checkConnection();
 
+    if (!filter) {
+      filter = {};
+    }
+
     $log.debug('[%s][updateOne] filter:', moduleName, filter, {
       update
     });
@@ -150,6 +174,10 @@ class Collection {
 
   async updateMany (filter, update, options) {
     await this.checkConnection();
+
+    if (!filter) {
+      filter = {};
+    }
 
     $log.debug('[%s][updateMany] filter:', moduleName, filter, {
       update
