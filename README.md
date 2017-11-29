@@ -112,6 +112,8 @@ await Users.updateMany({ first_name: 'Mikhail' }, {
 }, { w: 1 });
 ```
 
+> Or use methods **editOne** and **editMany** to avoid specifying **$set** for each request.
+
 ### [Delete](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#deleteMany)
 
 | Parameter | Type | Requried | Default |
