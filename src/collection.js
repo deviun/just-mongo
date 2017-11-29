@@ -190,6 +190,38 @@ class Collection {
     return await this.collection.updateMany(filter, update, options);
   }
 
+  async editOne (filter, update, options) {
+    return this.updateOne(filter, {
+      $set: update
+    }, options);
+  }
+
+  async editMany (filter, update, options) {
+    return this.updateMany(filter, {
+      $set: update
+    }, options);
+  }
+
+  async aggregate (pipeline, options = {}) {
+    await this.checkConnection();
+
+    $log.debug(
+      '[%s][aggregate] pipeline: %s',
+      moduleName,
+      process.env.LOG_LEVEL === 'debug' ? JSON.stringify(pipeline) : false
+    );
+
+    return await new $Promise((resolve, reject) => {
+      this.collection.aggregate(pipeline, options, (err, dbres) => {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(dbres);
+        }
+      })
+    });
+  }
+
 }
 
 module.exports = Collection;

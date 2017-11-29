@@ -146,12 +146,10 @@ async function banFirstUser () {
     }
   });
 
-  await usersDB.updateOne({
+  await usersDB.editOne({
     id: 1,
   }, {
-    $set: {
-      ban: true
-    }
+    ban: true
   });
 
   const banAfter = await usersDB.findOne({
@@ -178,9 +176,9 @@ async function banFirstUser () {
 
 // массовое обновление
 async function updateAgeForAll () {
-  await usersDB.updateMany({}, {$set: {
+  await usersDB.editMany({}, {
     age: 19
-  }});
+  });
 
   const count19 = await usersDB.count({
     age: 19
