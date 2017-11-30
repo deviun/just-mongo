@@ -80,6 +80,19 @@ const Users = mongo.collection('users');
 const Users = mongo.collection('users').collection;
 ```
 
+Such a method should be used if you are sure that there is already a connection to the MongoBD. If there is no such certainty, then use the method described below.
+
+```javascript
+const Users = mongo.collection('users');
+
+await Users.native((collection, resolve, reject) => {
+  // use collection.MethodFromNative
+  // сomplete the function using resolve or reject
+});
+```
+
+This method will be executed after connecting to the database. After that, you can use the first method.
+
 ### [Insert](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#insert)
 
 | Parameter | Type | Requried | Default |

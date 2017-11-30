@@ -222,6 +222,14 @@ class Collection {
     });
   }
 
+  async native (cb) {
+    await this.checkConnection();
+
+    return await new $Promise((resolve, reject) => {
+      cb(this.collection, resolve, reject);
+    });
+  }
+
 }
 
 module.exports = Collection;
