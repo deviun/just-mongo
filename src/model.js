@@ -14,11 +14,33 @@ class Validator {
   check (object, options) {
     const model = this.model;
 
-    let newObject, isSet;
+    let newObject;
+    const isMongoKeys = Object.keys(object).find((key) => key.match(/\$[a-z]+/i));
+    const mongoKeysIndexes = {};
 
-    if (_.has(object, '$set')) {
-      newObject = Object.assign({}, object.$set);
-      isSet = true;
+    if (isMongoKeys) {
+      options.set = true;
+      newObject = Object.assign({}, ...Object.keys(object).map((key) => {
+        if (key.match(/\$[a-z]+/i)) {
+          mongoKeysIndexes[key] = [...Object.keys(object[key])];
+
+          return object[key];
+        } else {
+          const retObject = {};
+
+          retObject[key] = object[key];
+          
+          return retObject;
+        }
+      }));
+
+      if (Object.keys(object).find((key) => key === '$rename')) {
+        options.rename = true;
+      }
+      
+      if (Object.keys(object).find((key) => key === '$unset')) {
+        options.unset = true;
+      }
     } else {
       newObject = Object.assign({}, object);
     }
@@ -36,7 +58,18 @@ class Validator {
     Object.keys(model).forEach((key) => {
       const dataOfKey = model[key];
 
-      if (typeof dataOfKey === 'function' && _.has(newObject, key)) {
+      if (
+        typeof dataOfKey === 'function' && 
+        _.has(newObject, key) &&
+        (
+          !options.rename || 
+          !Object.keys(object.$rename).includes(key)
+        ) &&
+        (
+          !options.unset ||
+          !Object.keys(object.$unset).includes(key)
+        )
+      ) {
         newObject[key] = dataOfKey(newObject[key]);
       } else if (typeof dataOfKey === 'object'
                  && !(dataOfKey instanceof Array))
@@ -49,15 +82,37 @@ class Validator {
       }
     });
 
-    if (isSet) {
-      return {$set: newObject};
+    if (isMongoKeys) {
+      const restoreObject = {};
+      const useProperties = [];
+
+      Object.keys(mongoKeysIndexes).forEach((key) => {
+        restoreObject[key] = mongoKeysIndexes[key].reduce((r, c) => {
+          r[c] = newObject[c];
+
+          useProperties.push(c);
+
+          return r;
+        }, {});
+      });
+
+      Object
+        .keys(newObject).filter((key) => {
+          return !(useProperties.includes(key));
+        })
+        .forEach((key) => {
+          restoreObject[key] = newObject[key];
+        });
+
+      return restoreObject;
+
     } else {
       return newObject;
     }
   }
 
-  _type (object, key, dataOfKey, paramValue) {
-    if (!_.has(object, key)) {
+  _type (object, key, dataOfKey, paramValue, options) {
+    if (!_.has(object, key) || options.rename || options.unset) {
       return;
     }
 
@@ -80,8 +135,8 @@ class Validator {
     }
   }
 
-  _isValid (object, key, dataOfKey, paramValue) {
-    if (!_.has(object, key)) {
+  _isValid (object, key, dataOfKey, paramValue, options) {
+    if (!_.has(object, key) || options.rename || options.unset) {
       return;
     }
 
