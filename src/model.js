@@ -83,11 +83,11 @@ class Validator {
         typeof dataOfKey === 'function' && 
         _.has(newObject, key) &&
         (
-          !options.rename || 
+          !_.get(options, 'rename') || 
           !Object.keys(object.$rename).includes(key)
         ) &&
         (
-          !options.unset ||
+          !_.get(options, 'unset') ||
           !Object.keys(object.$unset).includes(key)
         )
       ) {
@@ -133,7 +133,7 @@ class Validator {
   }
 
   _type (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) || options.rename || options.unset) {
+    if (!_.has(object, key) || _.get(options, 'rename') || _.get(options, 'unset')) {
       return;
     }
 
@@ -157,7 +157,7 @@ class Validator {
   }
 
   _isValid (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) || options.rename || options.unset) {
+    if (!_.has(object, key) || _.get(options, 'rename') || _.get(options, 'unset')) {
       return;
     }
 
