@@ -25,6 +25,7 @@ const models = {
 
 const $mongo = new $JMongo({
   models,
+  log: true,
   db: 'jmongo'
 }, function (err, ok) {
   if (err) {
@@ -47,7 +48,7 @@ pipeline.push({
 (async () => {
   const result = await usersDB.aggregate(pipeline);
   
-  console.log({
+  $log.info({
     result
   });
 

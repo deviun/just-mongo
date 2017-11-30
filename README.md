@@ -45,6 +45,7 @@ const models = {
 | Parameter | Type | Requried | Default |
 |:----------|:----:| :-------:| :------:|
 | models | object | yes | - |
+| log | **`false`** **`true`** `error` `warn` `info` `verbose` `debug` `silly` | no | false |
 | db | string | yes | '' |
 | host | string | no | localhost |
 | user | string | no | '' |

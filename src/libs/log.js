@@ -2,7 +2,7 @@ const $Winston = require('winston');
 
 const Log = new $Winston.Logger();
 
-const level = process.env.LOG_LEVEL || 'info';
+const level = 'info';
 const colorize = process.env.NODE_ENV === 'producation' ? false : true;
 
 Log.configure({

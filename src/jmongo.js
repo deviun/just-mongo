@@ -6,6 +6,7 @@ const $path = require('path');
 const $Connection = require($path.resolve(ROOT, 'src/connection'));
 const $Model = require($path.resolve(ROOT, 'src/model'));
 const $Collection = require($path.resolve(ROOT, 'src/collection'));
+const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
 const authDefault = {
   host: '127.0.0.1',
@@ -17,6 +18,14 @@ const authDefault = {
 
 class JMongo {
   constructor (connection, cb, setConnection) {
+    const logLevel = _.get(connection, 'log', false);
+
+    if (!logLevel) {
+      $log.transports.console.level = 'none';
+    } else {
+      $log.transports.console.level = typeof logLevel === 'string' ? logLevel : 'info';
+    }
+    
     if (setConnection) {
       return Object.assign(this, {
         connection: setConnection,
