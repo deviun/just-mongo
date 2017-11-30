@@ -46,12 +46,15 @@ const models = {
 |:----------|:----:| :-------:| :------:|
 | models | object | yes | - |
 | log | **`false`**, **`true`**, `error`, `warn`, `info`, `verbose`, `debug`, `silly` | no | false |
+| strict | boolean | no | false |
 | db | string | yes | '' |
 | host | string | no | localhost |
 | user | string | no | '' |
 | password | string | no | '' |
 | port | number/string | no | 27017 |
 
+- **log** — Set the logging
+- **strict** — Strict validation mode, if `true`, then an error occurs if the data type is incorrect. If the mode is disabled, the data will be automatically corrected as much as possible.
 
 ```javascript
 const JustMongo = require('just-mongo');

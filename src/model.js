@@ -7,8 +7,11 @@ const $path = require('path');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
 class Validator {
-  constructor (model) {
-    this.model = model;
+  constructor (model, strictMode) {
+    Object.assign(this, {
+      model,
+      strictMode
+    });
   }
 
   check (object, options) {
@@ -52,6 +55,24 @@ class Validator {
         $log.error('[%s]', moduleName, newError);
 
         throw new Error(newError);
+      }
+
+      if (
+        this.strictMode && 
+        !options.rename
+      ) {
+        const trueType = typeof model[key] === 'function' ?
+          typeof model[key]({}) : 
+          typeof model[key].type({});
+        const currentType = typeof newObject[key];
+
+        if (trueType !== currentType) {
+          const newError = `validation error: property "${key}" has an invalid data type; data are ${currentType}, and an ${trueType} is expected`;
+
+          $log.error('[%s]', moduleName, newError);
+
+          throw new Error(newError);
+        }
       }
     });
 
@@ -153,12 +174,15 @@ class Validator {
 }
 
 class Model {
-  constructor (models) {
-    this.models = models;
+  constructor (models, strictMode) {
+    Object.assign(this, {
+      models,
+      strictMode
+    });
   }
 
   createValidator (collectionName) {
-    return new Validator(this.models[collectionName]);
+    return new Validator(this.models[collectionName], this.strictMode);
   }
 }
 

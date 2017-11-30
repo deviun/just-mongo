@@ -19,6 +19,7 @@ const authDefault = {
 class JMongo {
   constructor (connection, cb, setConnection) {
     const logLevel = _.get(connection, 'log', false);
+    const strictMode = _.get(connection, 'strict', false);
 
     if (!logLevel) {
       $log.transports.console.level = 'none';
@@ -29,7 +30,7 @@ class JMongo {
     if (setConnection) {
       return Object.assign(this, {
         connection: setConnection,
-        models: new $Model(_.get(connection, 'models'))
+        models: new $Model(_.get(connection, 'models'), strictMode)
       });
     }
 
@@ -48,7 +49,7 @@ class JMongo {
     const models = _.get(connection, 'models');
 
     this.connection = new $Connection(this.connectionConfig, cb);
-    this.models = new $Model(models);
+    this.models = new $Model(models, strictMode);
   }
 
   collection (name) {
