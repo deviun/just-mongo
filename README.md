@@ -169,7 +169,7 @@ Options:
 - **project** — control the display of fields as a result.
 
 ```javascript
-const items = await Users.findRandom({ id: 2 }, 2, {
+const items = await Users.findRandom({ age: 25 }, 2, {
   project: {
     id: 1,
     name: 1,
