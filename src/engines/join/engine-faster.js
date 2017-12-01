@@ -5,7 +5,6 @@ const $path = require('path');
 const _ = require('lodash');
 
 async function faster (filter, joinCollection, joinField, project, options) {
-  const thisCollection = this;
   const aggregatePipeline = [];
 
   if (_.isObject(filter)) {
