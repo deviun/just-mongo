@@ -3,7 +3,7 @@ const $JMongo = require('../');
 const $log = require('../src/libs/log');
 const $Promise = require('bluebird');
 
-// пример моделей для коллеций
+// пример моделей для коллекций
 const models = {
   users: {
     name: { // правила для поля name

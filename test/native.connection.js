@@ -3,7 +3,7 @@
 const $JMongo = require('../');
 const $mongodb = require('mongodb');
 
-// пример моделей для коллеций
+// пример моделей для коллекций
 const models = {
   users: {
     name: { // правила для поля name
