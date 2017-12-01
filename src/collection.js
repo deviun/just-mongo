@@ -208,7 +208,7 @@ class Collection {
     $log.debug(
       '[%s][aggregate] pipeline: %s',
       moduleName,
-      process.env.LOG_LEVEL === 'debug' ? JSON.stringify(pipeline) : false
+      $log.transports.console.level === 'debug' ? JSON.stringify(pipeline) : false
     );
 
     return await new $Promise((resolve, reject) => {
@@ -228,6 +228,34 @@ class Collection {
     return await new $Promise((resolve, reject) => {
       cb(this.collection, resolve, reject);
     });
+  }
+
+  async findRandom (where, count = 5, options) {
+    await this.checkConnection();
+
+    const aggregatePipeline = [];
+
+    if (where && where instanceof Object) {
+      aggregatePipeline.push({
+        $match: where
+      });
+    }
+
+    aggregatePipeline.push({
+      $sample: {
+        size: Math.abs(count)
+      }
+    });
+
+    const projectDocuments = _.get(options, 'project');
+
+    if (projectDocuments) {
+      aggregatePipeline.push({
+        $project: projectDocuments
+      })
+    }
+
+    return await this.aggregate(aggregatePipeline);
   }
 
 }

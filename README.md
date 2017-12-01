@@ -156,6 +156,28 @@ const items = await Users.find({});
 const itemsCount = await Users.count({ age: 15 }, { maxTimeMS: 2500 });
 ```
 
+##### Searching for random entries
+
+| Parameter | Type | Requried | Default |
+|:----------|:----:| :-------:| :------:|
+| filter | object | no | null |
+| count | number | no | 5 |
+| options | object | no | null |
+
+Options: 
+
+- **project** — control the display of fields as a result.
+
+```javascript
+const items = await Users.findRandom({ id: 2 }, 2, {
+  project: {
+    id: 1,
+    name: 1,
+    _id: 0
+  }
+});
+```
+
 There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js).
 
 ### Native connections
