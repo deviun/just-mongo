@@ -105,6 +105,7 @@ This method will be executed after connecting to the database. After that, you c
 
 ```javascript
 await Users.insert({ user_id: 1 }, { serializeFunctions: true });
+await Users.insert([{ user_id: 1 }, { user_id: 2 }], { serializeFunctions: true });
 ```
 
 ### [Update](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#update)
