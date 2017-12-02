@@ -7,7 +7,8 @@ const $Promise = require('bluebird');
 const models = {
   staff: {
     name: String,
-    id: Number
+    id: Number,
+    ban: Boolean
   },
   journal: {
     staff_id: Number,
@@ -23,7 +24,7 @@ const data = {
     {id: 3, name: 'Max'}
   ],
   journal: [
-    {staff_id: 1},
+    {staff_id: 1}, // add index property
     {staff_id: 2},
     {staff_id: 3}
   ]
@@ -85,9 +86,7 @@ async function join () {
     name: '1.name',
     journal_index: '0.index'
   }, {
-    // joinDocument: {
-
-    // },
+    joinDocument: true,
     skip: 0,
     limit: 100
   });

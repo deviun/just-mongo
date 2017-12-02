@@ -1,8 +1,9 @@
 const ROOT = `${__dirname}/../../../`;
 const moduleName = 'jmongo.engines.join.faster';
 
-const $path = require('path');
 const _ = require('lodash');
+
+const aggregateMap = require('./aggregate-map');
 
 async function faster (filter, joinCollection, joinField, project, options) {
   const aggregatePipeline = [];
@@ -15,6 +16,13 @@ async function faster (filter, joinCollection, joinField, project, options) {
 
   const skip = _.get(options, 'skip', 0);
   const limit = _.get(options, 'limit', 100);
+  const sort = _.get(options, 'sort', false);
+
+  if (sort) {
+    aggregatePipeline.push({
+      $sort: sort
+    });
+  }
 
   aggregatePipeline.push({
     $skip: skip
@@ -36,30 +44,11 @@ async function faster (filter, joinCollection, joinField, project, options) {
     }
   });
 
-  let dbres = await this.aggregate(aggregatePipeline);
+  const dbres = await this.aggregate(aggregatePipeline);
 
-  dbres = dbres.map(aggregateMap.bind({
+  return dbres.map(aggregateMap.bind({
     project
   }));
-
-  return dbres;
-}
-
-function aggregateMap (item) {
-  const {joinArray} = item;
-  const [joinDocument] = joinArray;
-  const newDocument = {};
-  const project = this.project;
-
-  Object.keys(project).forEach((key) => {
-    const propertyDescription = project[key].match(/([0-1])\.([a-z0-9_$]+)/i);
-    const dataFrom = Number(propertyDescription[1]) === 0 ? item : joinDocument;
-    const fromKey = propertyDescription[2];
-
-    newDocument[key] = dataFrom[fromKey];
-  });
-
-  return newDocument;
 }
 
 module.exports = faster;
