@@ -1,5 +1,9 @@
 # Change log 
 
+## v1.6.0
+
+- Created new engine for joining collections.
+
 ## v1.5.0
 
 - Method added `collection.findRandom`.
