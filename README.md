@@ -178,6 +178,11 @@ const items = await Users.findRandom({ age: 25 }, 2, {
 });
 ```
 
+### Join engine
+
+If you need joined collection, use [join engine](https://github.com/deviun/just-mongo/tree/master/docs/join-engine.md).
+
+
 There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js).
 
 ### Native connections

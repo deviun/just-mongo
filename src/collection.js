@@ -7,6 +7,9 @@ const $path = require('path');
 const $Promise = require('bluebird');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
+// engines
+$joinEngine = require($path.resolve(ROOT, 'src/engines/join'));
+
 class Collection {
   constructor (connection, dataValidator, name) {
     Object.assign(this, {
@@ -256,6 +259,12 @@ class Collection {
     }
 
     return await this.aggregate(aggregatePipeline);
+  }
+
+  async join (filter, joinCollection, joinField, project, options) {
+    await this.checkConnection();
+    
+    return await $joinEngine.apply(this, arguments);
   }
 
 }
