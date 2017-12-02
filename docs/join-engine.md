@@ -56,4 +56,4 @@ const results = await collection1.join(false, collection2, {propCol1: 'propCol2'
 
 This query uses two database queries and more Node.js resources. This is not so significant if you select a relatively small number of documents.The properties `filter` and `sort` are optional.
 
-[An example of using join](https://github.com/deviun/just-mongo/blob/master/test/join.test.js)
+[An example of using join](https://github.com/deviun/just-mongo/blob/master/examples/join.test.js)
