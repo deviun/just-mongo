@@ -1,5 +1,12 @@
 # Change log 
 
+## v1.6.1
+
+- Tests of a healthy person.
+- Bug fixes.
+  - Creating native connection.
+  - Validation of model without models.
+
 ## v1.6.0
 
 - Created new engine for joining collections.
