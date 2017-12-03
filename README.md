@@ -184,11 +184,11 @@ const items = await Users.findRandom({ age: 25 }, 2, {
 If you need joined collection, use [join engine](https://github.com/deviun/just-mongo/tree/master/docs/join-engine.md).
 
 
-There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/test/jmongo.test.js).
+There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/examples/jmongo.test.js).
 
 ### Native connections
 
-In case you need to create your own flexible connection using **mongodb native**, use the code from the [example](https://github.com/deviun/just-mongo/blob/master/test/native.connection.js).
+In case you need to create your own flexible connection using **mongodb native**, use the code from the [example](https://github.com/deviun/just-mongo/blob/master/examples/native.connection.js).
 
 ## License
 

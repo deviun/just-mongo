@@ -15,7 +15,7 @@ class Validator {
   }
 
   check (object, options) {
-    const model = this.model;
+    const model = this.model || {};
 
     let newObject;
     const isMongoKeys = Object.keys(object).find((key) => key.match(/\$[a-z]+/i));
@@ -59,7 +59,7 @@ class Validator {
 
       if (
         this.strictMode && 
-        !options.rename
+        !_.get(options, 'rename')
       ) {
         const trueType = typeof model[key] === 'function' ?
           typeof model[key]({}) : 

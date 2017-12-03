@@ -4,8 +4,10 @@
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "node test/jmongo.test",
-    "mocha": "mocha test/connection.js --exit",
+    "test": "nyc ava --verbose --serial && npm run report",
+    "report": "nyc report --reporter=html",
+    "open-report": "open ./coverage/index.html",
+    "mocha": "mocha test/chai/connection.js --exit",
     "lint": "eslint ."
   },
   "keywords": [
@@ -18,10 +20,12 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "ava": "0.24.0",
     "babel-eslint": "8.0.2",
     "chai": "^4.1.2",
     "eslint": "4.10.0",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   },
   "dependencies": {
     "bluebird": "3.5.1",
@@ -39,5 +43,10 @@
   "bugs": {
     "url": "https://github.com/deviun/just-mongo/issues"
   },
-  "homepage": "https://github.com/deviun/just-mongo#readme"
+  "homepage": "https://github.com/deviun/just-mongo#readme",
+  "ava": {
+    "files": [
+      "./test/ava/*.js"
+    ]
+  }
 }
