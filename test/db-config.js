@@ -18,6 +18,9 @@ module.exports = {
     joinFrom: {
       id: Number,
       name: String
+    },
+    random: {
+      test: Number
     }
   }  
 };

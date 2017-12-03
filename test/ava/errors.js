@@ -5,7 +5,6 @@ const $log = require('../../src/libs/log');
 const $Promise = require('bluebird');
 const {models, db} = require('../db-config');
 
-
 let $mongo, avaDB;
 
 test.serial('connection', (t) => {
@@ -13,17 +12,16 @@ test.serial('connection', (t) => {
     $mongo = new $JMongo({
       models,
       db,
-      log: true,
       strict: true
     }, function (err, ok) {
       if (err) {
-        $log.info(err);
+        $log.error(err);
         t.fail('failed connection to MongoDB');
       } else {
         t.pass();
       }
       
-      avaDB = $mongo.collection('avaTest');
+      avaDB = $mongo.collection('avaTests');
       
       resolve();
     });
@@ -34,11 +32,30 @@ test.serial('use unknown property', async (t) => {
   let error;
 
   await avaDB.insert({
-    unkownProp: true
-  })
+    incorrectProperty: true
+  }, {})
   .catch((err) => {
-    $log.error(err);
+    error = err;
   });
 
-  t.pass();
+  const errorPattern = /validation error: property ".+" is not found in model/g;
+  const errorString = error.toString();
+
+  t.true(!!errorString.match(errorPattern));
+});
+
+test.serial('using invalid type', async (t) => {
+  let error;
+
+  await avaDB.insert({
+    key: 5555
+  })
+  .catch((err) => {
+    error = err;
+  });
+
+  const errorPattern = /validation error: property ".+" has an invalid data type; data are .+, and an .+ is expected/;
+  const errorString = error.toString();
+
+  t.true(!!errorString.match(errorPattern));
 });

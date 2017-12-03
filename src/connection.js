@@ -6,7 +6,11 @@ const $log = require($path.resolve(ROOT, 'src/libs/log'));
 const { MongoClient } = require('mongodb');
 
 class Connection {
-  constructor (config = {}, cb, nativeSandbox) {
+  constructor (config, cb, nativeSandbox) {
+    if (!config) {
+      config = {};
+    }
+    
     const {
       user = '',
       password = '',

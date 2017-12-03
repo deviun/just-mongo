@@ -15,7 +15,7 @@ test.serial('connection', (t) => {
       db
     }, function (err, ok) {
       if (err) {
-        $log.info(err);
+        $log.error(err);
         t.fail('failed connection to MongoDB');
       } else {
         t.pass();
