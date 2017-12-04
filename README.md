@@ -7,7 +7,7 @@ Wrapper for MongoDB.
 ## Install
 
 ```sh
-$ npm i just-mongo
+$ npm i -S just-mongo
 ```
 
 ## Tests
