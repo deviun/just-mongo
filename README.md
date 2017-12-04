@@ -71,6 +71,8 @@ const mongo = new JustMongo({
 });
 ```
 
+If you need create multi connections, [read this doc](https://github.com/deviun/just-mongo/blob/master/docs/multi-connection.md).
+
 ### Collection
 
 ```javascript

@@ -64,6 +64,10 @@ class JMongo {
     return new JMongo({models}, null, nConnection);
   }
 
+  static multi (connections) {
+    return {db: connections};
+  }
+
 }
 
 module.exports = JMongo;
