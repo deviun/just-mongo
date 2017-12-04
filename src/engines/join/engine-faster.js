@@ -26,9 +26,7 @@ async function faster (filter, joinCollection, joinField, project, options) {
 
   aggregatePipeline.push({
     $skip: skip
-  });
-
-  aggregatePipeline.push({
+  }, {
     $limit: limit
   });
 
