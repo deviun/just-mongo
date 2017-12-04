@@ -1,5 +1,9 @@
 # Change log 
 
+## v1.6.2
+
+- Creating multi connections.
+
 ## v1.6.1
 
 - Tests of a healthy person.
