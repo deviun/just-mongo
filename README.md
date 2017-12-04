@@ -4,6 +4,14 @@
 
 Wrapper for MongoDB.
 
+## Motivation
+
+Less code and more action.
+
+Just Mongo allows you to use a simplified API. Inside, we try to use minimalistic solutions that do not steal your time.
+
+You choose the possibilities of the library, and nothing superfluous.
+
 ## Install
 
 ```sh

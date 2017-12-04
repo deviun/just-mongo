@@ -1,5 +1,9 @@
 # Change log 
 
+## v1.6.3
+
+- Minor changes.
+
 ## v1.6.2
 
 - Creating multi connections.
