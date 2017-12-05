@@ -21,6 +21,12 @@ module.exports = {
     },
     random: {
       test: Number
+    },
+    speed: {
+      string: String,
+      number: Number,
+      object: Object,
+      boolean: Boolean
     }
   }  
 };
