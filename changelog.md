@@ -1,5 +1,9 @@
 # Change log 
 
+## v1.6.5
+
+- Now when initializing collections, JS memory has is only one copy for one connection.
+
 ## v1.6.4
 
 - Been added speed tests.
