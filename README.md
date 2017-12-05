@@ -136,12 +136,17 @@ This method will be executed after connecting to the database. After that, you c
 
 | Parameter | Type | Requried | Default |
 |:----------|:----:| :-------:| :------:|
-| document | object | yes | - |
+| document | object/list\<object\> | yes | - |
 | options | object | no | null |
 
 ```javascript
+// insert one document
 await Users.insert({ user_id: 1 }, { serializeFunctions: true });
-await Users.insert([{ user_id: 1 }, { user_id: 2 }], { serializeFunctions: true });
+// insert several documents
+await Users.insert([
+  { user_id: 1 }, 
+  { user_id: 2 }
+]);
 ```
 
 ### [Update](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#update)
