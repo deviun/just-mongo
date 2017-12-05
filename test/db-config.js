@@ -27,6 +27,16 @@ module.exports = {
       number: Number,
       object: Object,
       boolean: Boolean
+    },
+    types: {
+      string: String,
+      number: Number,
+      boolean: Boolean,
+      array: Array,
+      array2: {
+        type: Array
+      },
+      object: Object
     }
   }  
 };

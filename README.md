@@ -62,6 +62,18 @@ const models = {
 };
 ```
 
+### Data types
+
+| Type | Data | Data without `strict` |
+|:----------|:----:| ------- |
+| **String** | `"you data"` | `[1,2,3]` ⟹ `"1,2,3"` <br> `{}` ⟹ `"[object Object]"` <br> `5` ⟹ `"5"` <br> `true` ⟹ `"true"` |
+| **Number** | `12345` | `[1,2,3]` ⟹ `NaN` <br> `{}` ⟹ `NaN` <br> `"5"` ⟹ `5` <br> `"abc"` ⟹ `NaN` <br> `true`/`false` ⟹ `1`/`0` |
+| **Boolean** | `true` | `[1,2,3]` ⟹ `true` <br> `{}` ⟹ `true` <br> `"5"` ⟹ `true` <br> `0` ⟹ `false` |
+| **Object** | `{foo: 'bar'}` | `[1,2,3]` ⟹ `[1,2,3]` <br> `"abc"` ⟹ `{0: 'a', 1: 'b', ...}` <br> `5` ⟹ `{0: 5}` <br> `true` ⟹ `{0: true}` |
+| **Array** | `[1, 2, 3]` | `notArrayType` ⟹ `[notArrayType]` |
+
+Note that the `Object` and `Array` are different types of data, and if you have a `strict` enabled, then when the array is checked, the object does not pass the validation.
+
 ### Create connection
 
 | Parameter | Type | Requried | Default |

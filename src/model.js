@@ -61,17 +61,29 @@ class Validator {
         this.strictMode && 
         !_.get(options, 'rename')
       ) {
-        const trueType = typeof model[key] === 'function' ?
-          typeof model[key]({}) : 
-          typeof model[key].type({});
-        const currentType = typeof newObject[key];
+        let checkArray;
 
-        if (trueType !== currentType) {
-          const newError = `validation error: property "${key}" has an invalid data type; data are ${currentType}, and an ${trueType} is expected`;
-
-          $log.error('[%s]', moduleName, newError);
-
-          throw new Error(newError);
+        if (_.get(model[key], 'type') === Array || model[key] === Array) {
+          if (!(newObject[key] instanceof Array)) {
+            const newError = `validation error: property "${key}" has an invalid data type; data are ${typeof newObject[key]}, and an array is expected`;
+  
+            $log.error('[%s]', moduleName, newError);
+  
+            throw new Error(newError);
+          }
+        } else {
+          const trueType = typeof model[key] === 'function' ?
+            typeof model[key]({}) : 
+            typeof model[key].type({});
+          const currentType = typeof newObject[key];
+  
+          if (trueType !== currentType) {
+            const newError = `validation error: property "${key}" has an invalid data type; data are ${currentType}, and an ${trueType} is expected`;
+  
+            $log.error('[%s]', moduleName, newError);
+  
+            throw new Error(newError);
+          }
         }
       }
     });
@@ -91,7 +103,11 @@ class Validator {
           !Object.keys(object.$unset).includes(key)
         )
       ) {
-        newObject[key] = dataOfKey(newObject[key]);
+        if (dataOfKey !== Array) {
+          newObject[key] = dataOfKey(newObject[key]);
+        } else if (!(newObject[key] instanceof Array)) {
+          newObject[key] = Array(newObject[key]);
+        }
       } else if (typeof dataOfKey === 'object'
                  && !(dataOfKey instanceof Array))
       {
@@ -137,7 +153,11 @@ class Validator {
       return;
     }
 
-    object[key] = paramValue(object[key]);
+    if (paramValue !== Array) {
+      object[key] = paramValue(object[key]);
+    } else if (!(object[key] instanceof Array)) {
+      object[key] = Array(object[key]);
+    }
   }
 
   _default (object, key, dataOfKey, paramValue, options) {
