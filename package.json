@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc ava --verbose --serial && npm run report",
+    "test-speed": "node test/speed-test",
     "report": "nyc report --reporter=html",
     "open-report": "open ./coverage/index.html",
     "mocha": "mocha test/chai/connection.js --exit",

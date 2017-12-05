@@ -16,6 +16,8 @@ const authDefault = {
   port: 27017
 };
 
+const collectionCache = {};
+
 class JMongo {
   constructor (connection, cb, setConnection) {
     const logLevel = _.get(connection, 'log', false);
@@ -26,6 +28,9 @@ class JMongo {
     } else {
       $log.transports.console.level = typeof logLevel === 'string' ? logLevel : 'info';
     }
+
+    this.connectionId = String((new Date()).getTime());
+    collectionCache[this.connectionId] = {};
     
     if (setConnection) {
       return Object.assign(this, {
@@ -53,9 +58,17 @@ class JMongo {
   }
 
   collection (name) {
-    const dataValidator = this.models.createValidator(name);
+    if (collectionCache[this.connectionId][name]) {
+      return collectionCache[this.connectionId][name];
+    }
 
-    return new $Collection(this.connection, dataValidator, name);
+    collectionCache[this.connectionId][name] = new $Collection(
+      this.connection, 
+      this.models.createValidator(name), 
+      name
+    );
+
+    return collectionCache[this.connectionId][name];
   }
 
   static nativeConnection (models, sandbox) {
