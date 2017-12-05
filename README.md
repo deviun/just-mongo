@@ -12,6 +12,19 @@ Just Mongo allows you to use a simplified API. Inside, we try to use minimalisti
 
 You choose the possibilities of the library, and nothing superfluous.
 
+#Speed!!!
+
+We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all the races!
+
+| Test | Mongoose | Just-Mongo |
+|:----------|:----:| :-------:|
+| Connection | **52** | **11** |
+| Insert (5k docs) | **4785** | **160** |
+| Find | **53** | **3** |
+...time in **ms**.
+
+All tests are in directory: `test/speed-test`.
+
 ## Install
 
 ```sh
