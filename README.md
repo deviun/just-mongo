@@ -21,6 +21,7 @@ We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all th
 | Connection | **52** | **11** |
 | Insert (5k docs) | **4785** | **160** |
 | Find | **53** | **3** |
+
 ...time in **ms**.
 
 All tests are in directory: `test/speed-test`.
