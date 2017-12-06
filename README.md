@@ -16,11 +16,11 @@ You choose the possibilities of the library, and nothing superfluous.
 
 We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all the races!
 
-| Test | Mongoose | Just-Mongo |
-|:----------|:----:| :-------:|
-| Connection | **52** | **11** |
-| Insert (5k docs) | **4785** | **160** |
-| Find | **53** | **3** |
+| Test | Just-Mongo | Mongoose |
+|:-----|:----:| :-------:|
+| Connection |  **11** | **52** |
+| Insert (5k docs) |  **160** | **4785** |
+| Find | **3** | **53** |
 
 ...time in **ms**.
 
