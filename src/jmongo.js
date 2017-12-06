@@ -35,7 +35,7 @@ class JMongo {
     if (setConnection) {
       return Object.assign(this, {
         connection: setConnection,
-        models: new $Model(_.get(connection, 'models'), strictMode)
+        models: new $Model(_.get(connection, 'models', {}), strictMode)
       });
     }
 
@@ -51,7 +51,7 @@ class JMongo {
       connection: false
     });
 
-    const models = _.get(connection, 'models');
+    const models = _.get(connection, 'models', {});
 
     this.connection = new $Connection(this.connectionConfig, cb);
     this.models = new $Model(models, strictMode);
@@ -71,10 +71,12 @@ class JMongo {
     return collectionCache[this.connectionId][name];
   }
 
-  static nativeConnection (models, sandbox) {
-    const nConnection = new $Connection(null, null, sandbox);
-
-    return new JMongo({models}, null, nConnection);
+  static nativeConnection (options, sandbox) {
+    return new JMongo(
+      options, 
+      null, 
+      new $Connection(null, null, sandbox)
+    );
   }
 
   static multi (connections) {

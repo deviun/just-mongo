@@ -51,7 +51,7 @@ class Connection {
         if (cb) {
           cb(null, true);
         } else {
-          $log.info('[%s] created new connection', moduleName, {
+          $log.debug('[%s] created new connection', moduleName, {
             config
           });
         }
@@ -62,7 +62,7 @@ class Connection {
   }
 
   isConnection () {
-    return Boolean(this.db);
+    return !!this.db;
   }
 }
 

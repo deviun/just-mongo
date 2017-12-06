@@ -23,7 +23,11 @@ const models = {
   }
 };
 
-const $mongo = $JMongo.nativeConnection(models, (resolve, reject) => {
+const $mongo = $JMongo.nativeConnection({
+  models,
+  strict: true,
+  log: 'debug'
+}, (resolve, reject) => {
 
   const connectionURI = `mongodb://127.0.0.1:27017/jmongo`;
   const {MongoClient} = $mongodb;
@@ -53,4 +57,6 @@ const usersDB = $mongo.collection('users');
   console.log({
     users
   });
+
+  process.exit();
 })();

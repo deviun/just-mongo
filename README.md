@@ -229,7 +229,7 @@ There's some cool [examples too](https://github.com/deviun/just-mongo/blob/maste
 
 ### Native connections
 
-In case you need to create your own flexible connection using **mongodb native**, use the code from the [example](https://github.com/deviun/just-mongo/blob/master/examples/native.connection.js).
+In case you need to create your own flexible connection using **mongodb native**, read [this](https://github.com/deviun/just-mongo/blob/master/docs/native-connection.md) doc.
 
 ## License
 

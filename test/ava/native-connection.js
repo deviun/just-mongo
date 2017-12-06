@@ -8,7 +8,7 @@ const {models, db} = require('../db-config');
 
 
 test.serial('native connection', async (t) => {
-  const $mongo = $JMongo.nativeConnection(models, (resolve, reject) => {
+  const $mongo = $JMongo.nativeConnection({models}, (resolve, reject) => {
     const connectionURI = `mongodb://127.0.0.1:27017/${db}`;
     const {MongoClient} = $mongodb;
   
