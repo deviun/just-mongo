@@ -1,6 +1,9 @@
 # Change log 
 
 ## v1.6
+- **1.6.8**
+  - Changes for native connection. Read [this](https://github.com/deviun/just-mongo/blob/master/docs/native-connection.md) doc.
+  - Minor fixes.
 - **1.6.7**
   - Minor fixes.
 - **1.6.6**
