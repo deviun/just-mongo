@@ -1,8 +1,8 @@
 [![just-mongo](https://img.shields.io/npm/v/just-mongo.svg?style=flat-square)](https://www.npmjs.com/package/just-mongo/)
 
-# just-mongo
+# Just Mongo
 
-Wrapper for MongoDB.
+Simple and fast wrapper for MongoDB.
 
 ## Motivation
 
@@ -24,7 +24,7 @@ We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all th
 
 ...time in **ms**.
 
-All tests are in directory: `test/speed-test`.
+All tests are in directory: [test/speed-test](https://github.com/deviun/just-mongo/tree/master/test/speed-test).
 
 ## Install
 
