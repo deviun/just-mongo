@@ -1,7 +1,8 @@
 # Change log 
 
 ## v1.6
-
+- **1.6.7**
+  - Minor fixes.
 - **1.6.6**
   - Fixed work with `Array` type.
   - Documented data type.
