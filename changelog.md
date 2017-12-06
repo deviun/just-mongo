@@ -1,6 +1,9 @@
 # Change log 
 
 ## v1.6
+- **1.6.9**
+  - The smiley has been fixed in the documentation. Without this update in any way.
+  - We also corrected the error, but then all of a sudden it worked and we decided that the smiley is enough in this version.
 - **1.6.8**
   - Changes for native connection. Read [this](https://github.com/deviun/just-mongo/blob/master/docs/native-connection.md) doc.
   - Minor fixes.
