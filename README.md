@@ -4,7 +4,7 @@
 
 Simple and fast wrapper for MongoDB.
 
-## Motivation
+## 💪 Motivation 
 
 Less code and more action.
 
@@ -12,7 +12,7 @@ Just Mongo allows you to use a simplified API. Inside, we try to use minimalisti
 
 You choose the possibilities of the library, and nothing superfluous.
 
-## Speed!!!
+## Speed🌬
 
 We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all the races!
 
