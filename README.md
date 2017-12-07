@@ -87,7 +87,7 @@ Note that the `Object` and `Array` are different types of data, and if you have 
 | password | string | no | '' |
 | port | number/string | no | 27017 |
 
-- **log** — Set the logging
+- **log** — Set the logging.
 - **strict** — Strict validation mode, if `true`, then an error occurs if the data type is incorrect. If the mode is disabled, the data will be automatically corrected as much as possible.
 
 ```javascript
