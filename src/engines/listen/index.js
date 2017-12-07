@@ -39,7 +39,7 @@ class Listen extends EventEmitter {
         super.emit('updates', updates);
       }
 
-      setTimeout(this._check.bind(this), this.timeout);
+      this.lastCheckTimer = setTimeout(this._check.bind(this), this.timeout);
     } catch (err) {
       this.errorHandler(err);
     }
@@ -58,6 +58,7 @@ class Listen extends EventEmitter {
   }
 
   close () {
+    clearTimeout(this.lastCheckTimer);
     super.removeAllListeners();
     this.stop = true;
   }
