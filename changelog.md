@@ -1,5 +1,11 @@
 # Change log 
 
+## v1.7
+- **1.7.0**
+  - Managing the structure of documents when fetching from a database. [Read about it](https://github.com/deviun/just-mongo/blob/master/docs/document-project.md).
+  - Listening to collections [Read about it](https://github.com/deviun/just-mongo/blob/master/docs/listen-collection.md).
+  - Other minor fixes.
+
 ## v1.6
 - **1.6.9**
   - The smiley has been fixed in the documentation. Without this update in any way.
