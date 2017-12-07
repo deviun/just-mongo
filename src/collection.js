@@ -9,6 +9,7 @@ const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
 // engines
 $joinEngine = require($path.resolve(ROOT, 'src/engines/join'));
+$listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
 
 class Collection {
   constructor (connection, dataValidator, name) {
@@ -126,7 +127,13 @@ class Collection {
 
     $log.debug('[%s][findOne] query:', moduleName, query);
 
-    return await this.collection.findOne(query, options);
+    const dbres = await this.collection.findOne(query, options);
+
+    if (!this.documentProject) {
+      return dbres;
+    } else {
+     return this._project(dbres);
+    }
   }
 
   async find (query, options) {
@@ -150,11 +157,25 @@ class Collection {
       cursor.toArray((err, dbres) => {
         if (err) {
           return reject(err);
-        } else {
+        }
+
+        if (!this.documentProject) {
           return resolve(dbres);
+        } else {
+          return resolve(this._project(dbres));
         }
       });
     });
+  }
+
+  _project (result) {
+    if (result instanceof Array) {
+      return result.map((item) => this.documentProject.apply(item));
+    } else if (typeof result === 'object') {
+      return this.documentProject.apply(result);
+    } else {
+      throw new Error(`[${moduleName}][_project] an unknown data type was received`);
+    }
   }
 
   async updateOne (filter, update, options) {
@@ -265,6 +286,10 @@ class Collection {
     await this.checkConnection();
     
     return await $joinEngine.apply(this, arguments);
+  }
+
+  listen (getUpdates, timeout) {
+    return new $listenEngine(...arguments);
   }
 
 }

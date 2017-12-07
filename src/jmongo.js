@@ -71,6 +71,10 @@ class JMongo {
     return collectionCache[this.connectionId][name];
   }
 
+  setDocumentProject (name, replacer) {
+    this.collection(name).documentProject = replacer;
+  }
+
   static nativeConnection (options, sandbox) {
     return new JMongo(
       options, 

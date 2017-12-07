@@ -198,6 +198,8 @@ const items = await Users.find({});
 const itemsCount = await Users.count({ age: 15 }, { maxTimeMS: 2500 });
 ```
 
+You can [configure](https://github.com/deviun/just-mongo/tree/master/docs/document-project.md) additional logic for the contents of documents.
+
 ##### Searching for random entries
 
 | Parameter | Type | Requried | Default |
@@ -220,13 +222,19 @@ const items = await Users.findRandom({ age: 25 }, 2, {
 });
 ```
 
+### Getting updates
+
+To constantly receive new data from one or more collections at once, you can use our listening solution. [Open doc](https://github.com/deviun/just-mongo/tree/master/docs/listen-collection.md).
+
+
 ### Join engine
 
 If you need joined collection, use [join engine](https://github.com/deviun/just-mongo/tree/master/docs/join-engine.md).
 
-
+---
 There's some cool [examples too](https://github.com/deviun/just-mongo/blob/master/examples/jmongo.test.js).
 
+----
 ### Native connections
 
 In case you need to create your own flexible connection using **mongodb native**, read [this](https://github.com/deviun/just-mongo/blob/master/docs/native-connection.md) doc.
