@@ -37,6 +37,11 @@ module.exports = {
         type: Array
       },
       object: Object
+    },
+    feed: {
+      data: String,
+      time: Number,
+      index: Number
     }
   }  
 };

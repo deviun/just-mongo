@@ -9,6 +9,7 @@ const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
 // engines
 $joinEngine = require($path.resolve(ROOT, 'src/engines/join'));
+$listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
 
 class Collection {
   constructor (connection, dataValidator, name) {
@@ -265,6 +266,10 @@ class Collection {
     await this.checkConnection();
     
     return await $joinEngine.apply(this, arguments);
+  }
+
+  listen (getUpdates, timeout) {
+    return new $listenEngine(...arguments);
   }
 
 }
