@@ -16,10 +16,11 @@ This method is in an experimental state, use it with extreme caution!
 ```javascript
 // initialize the collection
 const feedDB = mongo.collection('feed');
-
+// how often they will request updates / ms
+const timeout = 1000;
 const subs = feedDB.listen(async (lastUpdates) => {
   // your code
-});
+}, timeout);
 ```
 
 The function can receive the previous updates, but initially they do not exist, do not forget about it. The function must return any type of data with an update. If the data is positive, it will be returned to the listener, otherwise it skips the step.
