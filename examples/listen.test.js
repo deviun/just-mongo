@@ -47,6 +47,10 @@ let firstCheckTime;
         }
       });
 
+      if (!firstCheckTime) {
+        firstCheckTime = {time: 0};
+      }
+
       lastUpdates = [firstCheckTime];
     } else if (!lastUpdates && firstCheckTime) {
       lastUpdates = [firstCheckTime];
