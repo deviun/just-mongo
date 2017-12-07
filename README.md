@@ -198,6 +198,8 @@ const items = await Users.find({});
 const itemsCount = await Users.count({ age: 15 }, { maxTimeMS: 2500 });
 ```
 
+You can [configure](https://github.com/deviun/just-mongo/tree/master/docs/document-project.md) additional logic for the contents of documents.
+
 ##### Searching for random entries
 
 | Parameter | Type | Requried | Default |
