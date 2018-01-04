@@ -1,6 +1,10 @@
 # Change log 
 
 ## v1.7
+- **1.7.1**
+  - Parsing `_id` for `find`, `findOne`, `deleteOne`, `deleteMany`, `updateOne`, `updateMany` as **ObjectID**.
+  - Been added method `collection.ObjectID` for getting ObjectID from string/number.
+  - And minor fixes.
 - **1.7.0**
   - Managing the structure of documents when fetching from a database. [Read about it](https://github.com/deviun/just-mongo/blob/master/docs/document-project.md).
   - Listening to collections. [Read about it](https://github.com/deviun/just-mongo/blob/master/docs/listen-collection.md).

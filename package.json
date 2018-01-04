@@ -1,6 +1,6 @@
 {
   "name": "just-mongo",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
