@@ -8,8 +8,10 @@ const $Promise = require('bluebird');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
 // engines
-$joinEngine = require($path.resolve(ROOT, 'src/engines/join'));
-$listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
+const $joinEngine = require($path.resolve(ROOT, 'src/engines/join'));
+const $listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
+
+const {ObjectIDReplacer, ObjectID} = require($path.resolve(ROOT, 'src/object-id'));
 
 class Collection {
   constructor (connection, dataValidator, name) {
@@ -89,6 +91,8 @@ class Collection {
       filter = {};
     }
 
+    filter = ObjectIDReplacer.findAndReplace(filter);
+
     $log.debug('[%s][deleteMany] filter:', moduleName, filter);
 
     return await this.collection.deleteMany(filter, options);
@@ -100,6 +104,8 @@ class Collection {
     if (!filter) {
       filter = {};
     }
+
+    filter = ObjectIDReplacer.findAndReplace(filter);
 
     $log.debug('[%s][deleteOne] filter:', moduleName, filter);
 
@@ -118,12 +124,18 @@ class Collection {
     return await this.collection.count(query, options);
   }
 
+  ObjectID (id) {
+    return new ObjectID(id);
+  }
+
   async findOne (query, options) {
     await this.checkConnection();
 
     if (!query) {
       query = {};
     }
+
+    query = ObjectIDReplacer.findAndReplace(query);
 
     $log.debug('[%s][findOne] query:', moduleName, query);
 
@@ -142,6 +154,8 @@ class Collection {
     if (!query) { // for "false", "null" .etc
       query = {};
     }
+
+    query = ObjectIDReplacer.findAndReplace(query);
 
     $log.debug('[%s][find] query:', moduleName, query);
 
@@ -185,6 +199,8 @@ class Collection {
       filter = {};
     }
 
+    filter = ObjectIDReplacer.findAndReplace(filter);
+
     $log.debug('[%s][updateOne] filter:', moduleName, filter, {
       update
     });
@@ -202,6 +218,8 @@ class Collection {
     if (!filter) {
       filter = {};
     }
+
+    filter = ObjectIDReplacer.findAndReplace(filter);
 
     $log.debug('[%s][updateMany] filter:', moduleName, filter, {
       update
