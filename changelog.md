@@ -1,6 +1,9 @@
 # Change log 
 
 ## v1.7
+- ***1.7.2***
+  - Fixed major bugs for update with `$inc`.
+  - Fixed test for `collection.listen`.
 - **1.7.1**
   - Parsing `_id` for `find`, `findOne`, `deleteOne`, `deleteMany`, `updateOne`, `updateMany` as **ObjectID**.
   - Been added method `collection.ObjectID` for getting ObjectID from string/number.
