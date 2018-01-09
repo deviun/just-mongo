@@ -24,30 +24,35 @@ class Validator {
     if (Object.keys(object).find((key) => key === '$unset')) {
       options.unset = true;
     }
-    
-    if (Object.keys(object).find((key) => key === '$inc')) {
-      if (typeof object.$inc === 'object') {
-        options.incSkip = Object.keys(object.$inc)
-          .map((key) => {
-            const parts = key.split('.');
-
-            if (!parts.length || parts.length <= 1) {
-              return key;
-            }
-
-            return parts[0];
-          });
-      }
-    }
 
     let newObject;
     const isMongoKeys = Object.keys(object).find((key) => key.match(/\$[a-z]+/i));
     const mongoKeysIndexes = {};
+    
+    function __map (key) {
+      const parts = key.split('.');
+
+      if (!parts.length || parts.length <= 1) {
+        return key;
+      }
+
+      return parts[0];
+    }
 
     if (isMongoKeys) {
       options.set = true;
       newObject = Object.assign({}, ...Object.keys(object).map((key) => {
         if (key.match(/\$[a-z]+/i)) {
+          if (typeof object[key] === 'object') {
+
+            if (!options.keySkip || _.get(options, 'keySkip.length', 0) === 0) {
+              options.keySkip = Object.keys(object[key])
+                .map(__map);
+            } else {
+              options.keySkip.push(...Object.keys(object[key]).map(__map));
+            }
+          }
+
           mongoKeysIndexes[key] = [...Object.keys(object[key])];
   
           return object[key];
@@ -65,8 +70,8 @@ class Validator {
 
     Object.keys(newObject).forEach((key, i) => {
       if (!_.has(model, key)) {
-        if (_.get(options, 'incSkip') && 
-        _.get(options, 'incSkip', []).includes(key.split('.')[0])
+        if (_.get(options, 'keySkip') && 
+        _.get(options, 'keySkip', []).includes(key.split('.')[0])
         ) {
           return false;
         }

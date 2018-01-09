@@ -28,7 +28,7 @@ test.serial('connection', (t) => {
   });
 });
 
-test.serial('update', async (t) => {
+test.serial('update $inc', async (t) => {
   await avaDB.deleteMany();
   await avaDB.insert({
     arr: [
@@ -46,6 +46,31 @@ test.serial('update', async (t) => {
     $inc: {
       'arr.$.count': 1,
       // 'inc': 5
+    }
+  });
+
+  const itemAfterUpdate = await avaDB.findOne({_id: itemBeforeUpdate._id});
+
+  t.notDeepEqual(itemBeforeUpdate.arr[0].count, itemAfterUpdate.arr[0].count);
+});
+
+test.serial('update $set', async (t) => {
+  await avaDB.deleteMany();
+  await avaDB.insert({
+    arr: [
+      {count: 0}
+    ],
+    inc: 0
+  });
+
+  const itemBeforeUpdate = await avaDB.findOne();
+
+  await avaDB.updateOne({
+    _id: itemBeforeUpdate._id,
+    'arr.count': 0
+  }, {
+    $set: {
+      'arr.$.count': 1
     }
   });
 
