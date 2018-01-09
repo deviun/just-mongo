@@ -17,6 +17,29 @@ class Validator {
   check (object, options) {
     const model = this.model || {};
 
+    if (Object.keys(object).find((key) => key === '$rename')) {
+      options.rename = true;
+    }
+    
+    if (Object.keys(object).find((key) => key === '$unset')) {
+      options.unset = true;
+    }
+    
+    if (Object.keys(object).find((key) => key === '$inc')) {
+      if (typeof object.$inc === 'object') {
+        options.incSkip = Object.keys(object.$inc)
+          .map((key) => {
+            const parts = key.split('.');
+
+            if (parts.length <= 1) {
+              return key;
+            }
+
+            return parts[0];
+          });
+      }
+    }
+
     let newObject;
     const isMongoKeys = Object.keys(object).find((key) => key.match(/\$[a-z]+/i));
     const mongoKeysIndexes = {};
@@ -26,7 +49,7 @@ class Validator {
       newObject = Object.assign({}, ...Object.keys(object).map((key) => {
         if (key.match(/\$[a-z]+/i)) {
           mongoKeysIndexes[key] = [...Object.keys(object[key])];
-
+  
           return object[key];
         } else {
           const retObject = {};
@@ -36,20 +59,18 @@ class Validator {
           return retObject;
         }
       }));
-
-      if (Object.keys(object).find((key) => key === '$rename')) {
-        options.rename = true;
-      }
-      
-      if (Object.keys(object).find((key) => key === '$unset')) {
-        options.unset = true;
-      }
     } else {
       newObject = Object.assign({}, object);
     }
 
     Object.keys(newObject).forEach((key) => {
       if (!_.has(model, key)) {
+        if (options.incSkip && 
+          options.incSkip.includes(key.split('.')[0])
+        ) {
+          return false;
+        }
+
         const newError = `validation error: property "${key}" is not found in model ${JSON.stringify(Object.keys(model))}`;
 
         $log.error('[%s]', moduleName, newError);
@@ -141,6 +162,8 @@ class Validator {
           restoreObject[key] = newObject[key];
         });
 
+      console.log(restoreObject);
+
       return restoreObject;
 
     } else {
@@ -149,7 +172,10 @@ class Validator {
   }
 
   _type (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) || _.get(options, 'rename') || _.get(options, 'unset')) {
+    if (!_.has(object, key) || 
+        _.get(options, 'rename') || 
+        _.get(options, 'unset')
+      ) {
       return;
     }
 

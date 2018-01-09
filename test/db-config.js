@@ -42,6 +42,10 @@ module.exports = {
       data: String,
       time: Number,
       index: Number
+    },
+    incArray: {
+      arr: Array,
+      inc: Number
     }
   }  
 };
