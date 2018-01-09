@@ -1,7 +1,7 @@
 # Change log 
 
 ## v1.7
-- ***1.7.2***
+- **1.7.2**
   - Fixed major bugs for update with `$inc`.
   - Fixed test for `collection.listen`.
 - **1.7.1**
