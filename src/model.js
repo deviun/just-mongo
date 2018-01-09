@@ -31,7 +31,7 @@ class Validator {
           .map((key) => {
             const parts = key.split('.');
 
-            if (parts.length <= 1) {
+            if (!parts.length || parts.length <= 1) {
               return key;
             }
 
@@ -63,10 +63,10 @@ class Validator {
       newObject = Object.assign({}, object);
     }
 
-    Object.keys(newObject).forEach((key) => {
+    Object.keys(newObject).forEach((key, i) => {
       if (!_.has(model, key)) {
-        if (options.incSkip && 
-          options.incSkip.includes(key.split('.')[0])
+        if (_.get(options, 'incSkip') && 
+        _.get(options, 'incSkip', []).includes(key.split('.')[0])
         ) {
           return false;
         }
@@ -82,8 +82,6 @@ class Validator {
         this.strictMode && 
         !_.get(options, 'rename')
       ) {
-        let checkArray;
-
         if (_.get(model[key], 'type') === Array || model[key] === Array) {
           if (!(newObject[key] instanceof Array)) {
             const newError = `validation error: property "${key}" has an invalid data type; data are ${typeof newObject[key]}, and an array is expected`;
@@ -161,8 +159,6 @@ class Validator {
         .forEach((key) => {
           restoreObject[key] = newObject[key];
         });
-
-      console.log(restoreObject);
 
       return restoreObject;
 

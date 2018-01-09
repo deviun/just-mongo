@@ -11,7 +11,8 @@ test.serial('connection', (t) => {
   return new $Promise((resolve) => {
     $mongo = new $JMongo({
       models,
-      db
+      db,
+      log: true
     }, function (err, ok) {
       if (err) {
         $log.error(err);
@@ -38,18 +39,17 @@ test.serial('update', async (t) => {
 
   const itemBeforeUpdate = await avaDB.findOne();
 
-  console.log(JSON.stringify(itemBeforeUpdate));
-
   await avaDB.updateOne({
-    _id: itemBeforeUpdate._id
+    _id: itemBeforeUpdate._id,
+    'arr.count': 0
   }, {
     $inc: {
-      'arr.0.count': 1,
+      'arr.$.count': 1,
       // 'inc': 5
     }
   });
 
-  const itemAfterUpdate = avaDB.findOne({_id: itemBeforeUpdate._id});
+  const itemAfterUpdate = await avaDB.findOne({_id: itemBeforeUpdate._id});
 
   t.notDeepEqual(itemBeforeUpdate.arr[0].count, itemAfterUpdate.arr[0].count);
 });

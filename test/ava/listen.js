@@ -91,7 +91,23 @@ test.serial('check', async (t) => {
     }, 5000);
   });
 
-  const expected = [[1,2],[3,4],[5,6],[7,8]];
+  let diff = 0;
 
-  t.deepEqual(updatesList, expected, 'updatesList incorrect');
+  updatesList.forEach((part) => {
+    let lastItem;
+
+    part.forEach((item) => {
+      if (lastItem) {
+        const _diff = item - lastItem;
+
+        if (_diff > diff) {
+          diff = _diff;
+        }
+      } else {
+        lastItem = item;
+      }
+    });
+  });
+
+  t.true(diff === 1, 'updatesList incorrect');
 });
