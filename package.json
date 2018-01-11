@@ -8,7 +8,7 @@
     "test-speed": "node test/speed-test",
     "report": "nyc report --reporter=html",
     "open-report": "open ./coverage/index.html",
-    "mocha": "mocha test/chai/connection.js --exit",
+    "mocha": "mocha test/chai --exit",
     "lint": "eslint ."
   },
   "keywords": [
