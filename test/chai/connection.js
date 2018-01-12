@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const Connection = require('../src/Connection');
+const Connection = require('../../src/connection');
 
 describe('test connections', () => {
   it('create connection without params', () => {
