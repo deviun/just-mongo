@@ -25,6 +25,10 @@ class ObjectIDReplacer {
 
   static findAndReplace (obj) {
     function find (obj) {
+      if (typeof obj === 'string') {
+        return obj;
+      }
+      
       return Object.keys(obj).reduce((r, key) => {
         if (key.match(mongoSKRegExp)) {
           r[key] = find(obj[key]);
