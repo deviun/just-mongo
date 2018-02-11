@@ -1,6 +1,8 @@
 # Change log 
 
 ## v1.7
+- **1.7.4**
+  - Minor Fixed bugs.
 - **1.7.3**
   - Fixed bugs.
 - **1.7.2**
