@@ -68,7 +68,7 @@ class Validator {
       newObject = Object.assign({}, object);
     }
 
-    Object.keys(newObject).forEach((key, i) => {
+    Object.keys(newObject).forEach((key) => {
       if (!_.has(model, key)) {
         if (_.get(options, 'keySkip') && 
         _.get(options, 'keySkip', []).includes(key.split('.')[0])
@@ -96,12 +96,18 @@ class Validator {
             throw new Error(newError);
           }
         } else {
+          const keyPaths = key.split('.');
+
+          if (keyPaths.length > 1) {
+            key = keyPaths[0];
+          }
+          
           const trueType = typeof model[key] === 'function' ?
             typeof model[key]({}) : 
             typeof model[key].type({});
           const currentType = typeof newObject[key];
-  
-          if (trueType !== currentType) {
+          
+          if (trueType !== currentType && keyPaths.length < 2) {
             const newError = `validation error: property "${key}" has an invalid data type; data are ${currentType}, and an ${trueType} is expected`;
   
             $log.error('[%s]', moduleName, newError);
@@ -176,7 +182,7 @@ class Validator {
     if (!_.has(object, key) || 
         _.get(options, 'rename') || 
         _.get(options, 'unset')
-      ) {
+    ) {
       return;
     }
 
