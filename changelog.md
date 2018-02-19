@@ -1,6 +1,8 @@
 # Change log 
 
 ## v1.7
+- **1.7.8**
+  - Minor Fixed bugs. Also, a fully updated data validation is expected soon based on the model.
 - **1.7.4**
   - Minor Fixed bugs.
 - **1.7.3**
