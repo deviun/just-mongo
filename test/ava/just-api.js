@@ -11,6 +11,7 @@ test.serial('connection', (t) => {
   return new $Promise((resolve) => {
     $mongo = new $JMongo({
       models,
+      log: process.env.LOG_LEVEL || false,
       db
     }, function (err, ok) {
       if (err) {
@@ -63,6 +64,17 @@ test.serial('collection.find', async (t) => {
   const result = await avaDB.find();
 
   t.is(result.length, 3);
+});
+
+test.serial('collection.find with $or', async (t) => {
+  const result = await avaDB.find({
+    $or: [
+      {key: 'k2'},
+      {key: 'k3'}
+    ]
+  });
+
+  t.is(result.length, 2);
 });
 
 test.serial('collection.findOne', async (t) => {
