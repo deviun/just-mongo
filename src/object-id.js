@@ -29,7 +29,7 @@ class ObjectIDReplacer {
         return obj;
       }
       
-      return Object.keys(obj).reduce((r, key) => {
+      const repObj = Object.keys(obj).reduce((r, key) => {
         if (key.match(mongoSKRegExp)) {
           r[key] = find(obj[key]);
         } else if (key === '_id' && !(obj[key] instanceof ObjectID)) {
@@ -45,6 +45,16 @@ class ObjectIDReplacer {
 
         return r;
       }, {});
+
+      if (obj instanceof Array) {
+        return Object.keys(repObj).reduce((r, key) => {
+          r.push(repObj[key]);
+
+          return r;
+        }, []);
+      }
+
+      return repObj;
     }
 
     return find(obj);

@@ -6,10 +6,12 @@
   - Due to the first point, very evil bugs disappeared.
   - Have a nice work!
 ## v1.7
+- **1.7.9**
+  - Fixed bugs for find with $or.
 - **1.7.8**
-  - Minor Fixed bugs. Also, a fully updated data validation is expected soon based on the model.
+  - Fixed bugs. Also, a fully updated data validation is expected soon based on the model.
 - **1.7.4**
-  - Minor Fixed bugs.
+  - Fixed bugs.
 - **1.7.3**
   - Fixed bugs.
 - **1.7.2**
