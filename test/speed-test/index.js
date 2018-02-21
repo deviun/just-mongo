@@ -55,7 +55,7 @@ const stats = {};
   }
 
   const statsTable = table([
-    ['Test', 'Mongoose', 'Just-Mongo'],
+    ['Test', 'Mongoose', 'Just-Mongo 2'],
     ['Connection', stats.connection.mongoose, stats.connection['just-mongo']],
     ['Insert', stats.insert.mongoose, stats.insert['just-mongo']],
     ['Find', stats.find.mongoose, stats.find['just-mongo']]

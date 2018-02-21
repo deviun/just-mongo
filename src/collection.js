@@ -14,18 +14,18 @@ const $listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
 const {ObjectIDReplacer, ObjectID} = require($path.resolve(ROOT, 'src/object-id'));
 
 class Collection {
-  constructor (connection, dataValidator, name) {
+  constructor (connection, collectionReady, name) {
     Object.assign(this, {
       connection,
       name,
-      dataValidator
+      collectionReady
     });
 
     this.createCollection();
   }
 
-  async checkConnection () {
-    let isConnection = this.connection.isConnection();
+  async checkConnection (options) {
+    let isConnection;
 
     if (isConnection) {
       return true;
@@ -37,7 +37,11 @@ class Collection {
       const checkConnection = async () => {
         isConnection = this.connection.isConnection();
 
-        if (isConnection) {
+        $log.debug('[%s] checkConnection, options: ', moduleName, options || {}, 'collectionReadyStatus', this.collectionReady.status);
+
+        if (isConnection &&
+           ( _.get(options, 'ignoreCollectionReady') ? true : this.collectionReady.status )
+        ) {
           return resolve(true);
         } else {
           if (checkCount < 15) {
@@ -54,8 +58,11 @@ class Collection {
   }
 
   async createCollection () {
-    await this.checkConnection();
+    await this.checkConnection({
+      ignoreCollectionReady: true
+    });
 
+    this.collectionReady.connection = this.connection.db;
     this.collection = this.connection.db.collection(this.name);
   }
 
@@ -76,10 +83,6 @@ class Collection {
 
       throw new Error(newError);
     }
-
-    list = list.map((item) => {
-      return this.dataValidator.check(item);
-    });
 
     return await this.collection.insertMany(list, options);
   }
@@ -205,10 +208,6 @@ class Collection {
       update
     });
 
-    update = this.dataValidator.check(update, {
-      set: _.get(update, '$set', false)
-    });
-
     return await this.collection.updateOne(filter, update, options);
   }
 
@@ -223,10 +222,6 @@ class Collection {
 
     $log.debug('[%s][updateMany] filter:', moduleName, filter, {
       update
-    });
-
-    update = this.dataValidator.check(update, {
-      set: _.get(update, '$set', false)
     });
 
     return await this.collection.updateMany(filter, update, options);

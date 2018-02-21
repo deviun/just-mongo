@@ -5,237 +5,125 @@ const _ = require('lodash');
 
 const $path = require('path');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
-
-class Validator {
-  constructor (model, strictMode) {
-    Object.assign(this, {
-      model,
-      strictMode
-    });
-  }
-
-  check (object, options) {
-    const model = this.model || {};
-
-    if (Object.keys(object).find((key) => key === '$rename')) {
-      options.rename = true;
-    }
-    
-    if (Object.keys(object).find((key) => key === '$unset')) {
-      options.unset = true;
-    }
-
-    let newObject;
-    const isMongoKeys = Object.keys(object).find((key) => key.match(/\$[a-z]+/i));
-    const mongoKeysIndexes = {};
-    
-    function __map (key) {
-      const parts = key.split('.');
-
-      if (!parts.length || parts.length <= 1) {
-        return key;
-      }
-
-      return parts[0];
-    }
-
-    if (isMongoKeys) {
-      options.set = true;
-      newObject = Object.assign({}, ...Object.keys(object).map((key) => {
-        if (key.match(/\$[a-z]+/i)) {
-          if (typeof object[key] === 'object') {
-
-            if (!options.keySkip || _.get(options, 'keySkip.length', 0) === 0) {
-              options.keySkip = Object.keys(object[key])
-                .map(__map);
-            } else {
-              options.keySkip.push(...Object.keys(object[key]).map(__map));
-            }
-          }
-
-          mongoKeysIndexes[key] = [...Object.keys(object[key])];
-  
-          return object[key];
-        } else {
-          const retObject = {};
-
-          retObject[key] = object[key];
-          
-          return retObject;
-        }
-      }));
-    } else {
-      newObject = Object.assign({}, object);
-    }
-
-    Object.keys(newObject).forEach((key) => {
-      if (!_.has(model, key)) {
-        if (_.get(options, 'keySkip') && 
-        _.get(options, 'keySkip', []).includes(key.split('.')[0])
-        ) {
-          return false;
-        }
-
-        const newError = `validation error: property "${key}" is not found in model ${JSON.stringify(Object.keys(model))}`;
-
-        $log.error('[%s]', moduleName, newError);
-
-        throw new Error(newError);
-      }
-
-      if (
-        this.strictMode && 
-        !_.get(options, 'rename')
-      ) {
-        if (_.get(model[key], 'type') === Array || model[key] === Array) {
-          if (!(newObject[key] instanceof Array)) {
-            const newError = `validation error: property "${key}" has an invalid data type; data are ${typeof newObject[key]}, and an array is expected`;
-  
-            $log.error('[%s]', moduleName, newError);
-  
-            throw new Error(newError);
-          }
-        } else {
-          const keyPaths = key.split('.');
-
-          if (keyPaths.length > 1) {
-            key = keyPaths[0];
-          }
-          
-          const trueType = typeof model[key] === 'function' ?
-            typeof model[key]({}) : 
-            typeof model[key].type({});
-          const currentType = typeof newObject[key];
-          
-          if (trueType !== currentType && keyPaths.length < 2) {
-            const newError = `validation error: property "${key}" has an invalid data type; data are ${currentType}, and an ${trueType} is expected`;
-  
-            $log.error('[%s]', moduleName, newError);
-  
-            throw new Error(newError);
-          }
-        }
-      }
-    });
-
-    Object.keys(model).forEach((key) => {
-      const dataOfKey = model[key];
-
-      if (
-        typeof dataOfKey === 'function' && 
-        _.has(newObject, key) &&
-        (
-          !_.get(options, 'rename') || 
-          !Object.keys(object.$rename).includes(key)
-        ) &&
-        (
-          !_.get(options, 'unset') ||
-          !Object.keys(object.$unset).includes(key)
-        )
-      ) {
-        if (dataOfKey !== Array) {
-          newObject[key] = dataOfKey(newObject[key]);
-        } else if (!(newObject[key] instanceof Array)) {
-          newObject[key] = Array(newObject[key]);
-        }
-      } else if (typeof dataOfKey === 'object'
-                 && !(dataOfKey instanceof Array))
-      {
-        Object.keys(dataOfKey).forEach((param) => {
-          if (this[`_${param}`]) {
-            this[`_${param}`](newObject, key, dataOfKey, dataOfKey[param], options);
-          }
-        });
-      }
-    });
-
-    if (isMongoKeys) {
-      const restoreObject = {};
-      const useProperties = [];
-
-      Object.keys(mongoKeysIndexes).forEach((key) => {
-        restoreObject[key] = mongoKeysIndexes[key].reduce((r, c) => {
-          r[c] = newObject[c];
-
-          useProperties.push(c);
-
-          return r;
-        }, {});
-      });
-
-      Object
-        .keys(newObject).filter((key) => {
-          return !(useProperties.includes(key));
-        })
-        .forEach((key) => {
-          restoreObject[key] = newObject[key];
-        });
-
-      return restoreObject;
-
-    } else {
-      return newObject;
-    }
-  }
-
-  _type (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) || 
-        _.get(options, 'rename') || 
-        _.get(options, 'unset')
-    ) {
-      return;
-    }
-
-    if (paramValue !== Array) {
-      object[key] = paramValue(object[key]);
-    } else if (!(object[key] instanceof Array)) {
-      object[key] = Array(object[key]);
-    }
-  }
-
-  _default (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) && _.get(options, 'set', false) === false) {
-      object[key] = paramValue;
-    }
-  }
-
-  _required (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) && _.get(options, 'set', false) === false) {
-      const newError = `validation error: property "${key}" is not found in ${JSON.stringify(object)}`;
-
-      $log.error('[%s]', moduleName, newError);
-
-      throw new Error(newError);
-    }
-  }
-
-  _isValid (object, key, dataOfKey, paramValue, options) {
-    if (!_.has(object, key) || _.get(options, 'rename') || _.get(options, 'unset')) {
-      return;
-    }
-
-    const check = paramValue(object[key]);
-
-    if (!check) {
-      const newError = `validation error: property "${key}" is not valid in ${JSON.stringify(object)}`;
-
-      $log.error('[%s]', moduleName, newError);
-
-      throw new Error(newError);
-    }
-  }
-}
+const $Promise = require('bluebird');
 
 class Model {
-  constructor (models, strictMode) {
-    Object.assign(this, {
-      models,
-      strictMode
+  static async init (models, collectionReady) {
+    let db;
+
+    $log.debug('[%s] await connection for init', moduleName);
+
+    await new $Promise((resolve) => {
+      (function check () {
+        if (!collectionReady.connection) {
+          setTimeout(check, 250);
+        } else {
+          db = collectionReady.connection;
+          resolve();
+        }
+      })()
     });
+
+    $log.debug('[%s] db connected for init', moduleName);
+
+    for (let collectionName of Object.keys(models)) {
+      let schema;
+
+      if (!models[collectionName].$jsonSchema) {
+        schema = Model.createJsonSchema(models[collectionName]);
+      } else {
+        schema = models[collectionName].$jsonSchema;
+      }
+
+      const validatorOptions = {
+        validator: { $jsonSchema: schema }/* ,
+        validationLevel: 'strict',
+        validationAction: 'error' */
+      };
+
+      let setSchema, cmd;
+      try {
+        cmd = Object.assign({
+          create: collectionName
+        }, validatorOptions);
+
+        $log.debug('[%s] query for update Schema for "%s". ', moduleName, collectionName, schema, 'cmd: ', cmd);
+
+        setSchema = await db.command(cmd);
+      } catch (err) {
+        $log.debug('[%s] use collMod for update schema', moduleName);
+
+        try {
+          cmd = Object.assign({
+            collMod: collectionName
+          }, validatorOptions);
+
+          $log.debug('[%s] query for update Schema for "%s". ', moduleName, collectionName, schema, 'cmd: ', cmd);
+
+          setSchema = await db.command(cmd);
+        } catch (err2) {
+          $log.error('[%s] error set schema to collection', moduleName, err, '\n-----\n', err2);
+
+          throw new Error('error schema validation');
+        }
+      }
+
+      $log.debug('[%s] schema for "%s" created. ', moduleName, collectionName, schema, 'result: ', setSchema);
+    }
+
+    collectionReady.status = true;
   }
 
-  createValidator (collectionName) {
-    return new Validator(this.models[collectionName], this.strictMode);
+  static createJsonSchema (oldSchema) {
+    const schema = {
+      bsonType: 'object',
+      properties: {}
+    };
+
+    Object.keys(oldSchema).forEach((property) => {
+      schema.properties[property] = {};
+
+      const value = oldSchema[property];
+      const prop = schema.properties[property];
+
+      function setTypeOfFn (fn) {
+        switch (fn) {
+          case String:
+            prop.type = 'string';
+          break;
+          case Number:
+            prop.type = 'number';
+          break;
+          case Object: 
+            prop.type = 'object';
+          break;
+          case Array: 
+            prop.type = 'array';
+          break;
+          case Boolean:
+            prop.type = 'boolean';
+          break;
+        }
+      }
+
+      if (typeof value === 'function') {
+        setTypeOfFn(value);
+      } else if (typeof value === 'object') {
+        setTypeOfFn(value.type);
+
+        if (value.required) {
+          if (!schema.required) {
+            schema.required = [];
+          }
+          
+          schema.required.push(property);
+        }
+      } else {
+        throw new Error('collection model is invalid type');
+      }
+    });
+
+    return schema;
   }
 }
 

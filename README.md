@@ -1,4 +1,4 @@
-# Just Mongo
+# Just Mongo 2.0 `alpha`
 [![just-mongo](https://img.shields.io/npm/v/just-mongo.svg?style=flat-square)](https://www.npmjs.com/package/just-mongo/)
 
 Simple and fast wrapper for MongoDB.
@@ -15,20 +15,38 @@ You choose the possibilities of the library, and nothing superfluous.
 
 We ran along with [Mongoose](http://mongoosejs.com/), and overtook him in all the races!
 
-| Test | Just-Mongo | Mongoose |
+| Test | Just-Mongo 2 | Mongoose |
 |:-----|:----:| :-------:|
-| Connection |  **11** | **52** |
-| Insert (5k docs) |  **160** | **4785** |
-| Find | **3** | **53** |
+| Connection |  **4** | **46** |
+| Insert (5k docs) |  **366** | **3686** |
+| Find | **6** | **10** |
 
 ...time in **ms**.
 
 All tests are in directory: [test/speed-test](https://github.com/deviun/just-mongo/tree/master/test/speed-test).
 
+## Feature compatibility
+
+Just-Mongo 2 uses the new version of mongodb. 
+Please, read next posts:
+
+ - https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/
+
+- https://docs.mongodb.com/manual/core/schema-validation/#json-schema
+
+## Switching from v1.x
+
+The following should be considered when upgrading the version:
+
+- It is desirable to update old models to new json schemes.
+- Old models will work in limited functionality. Stop working: `isValid`, `default`.
+
+> You may soon be able to set the default values for document properties.
+
 ## Install
 
 ```sh
-$ npm i -S just-mongo
+$ npm i just-mongo -S
 ```
 
 ## Tests
@@ -37,16 +55,16 @@ $ npm i -S just-mongo
 $ npm test
 ```
 
+--------
 ## Docs
-
 ### Create models
 
+Limited version:
 ```javascript
 const models = {
   users: {
     name: {
       type: String,
-      isValid: (value) => String(value).split(' ').length === 1
     },
     age: Number,
     id: {
@@ -54,24 +72,38 @@ const models = {
       required: true
     },
     ban: {
-      type: Boolean,
-      default: false
+      type: Boolean
     }
   }
 };
 ```
 
-### Data types
+Flexible version:
 
-| Type | Data | Data without `strict` |
-|:----------|:----:| ------- |
-| **String** | `"you data"` | `[1,2,3]` ⟹ `"1,2,3"` <br> `{}` ⟹ `"[object Object]"` <br> `5` ⟹ `"5"` <br> `true` ⟹ `"true"` |
-| **Number** | `12345` | `[1,2,3]` ⟹ `NaN` <br> `{}` ⟹ `NaN` <br> `"5"` ⟹ `5` <br> `"abc"` ⟹ `NaN` <br> `true`/`false` ⟹ `1`/`0` |
-| **Boolean** | `true` | `[1,2,3]` ⟹ `true` <br> `{}` ⟹ `true` <br> `"5"` ⟹ `true` <br> `0` ⟹ `false` |
-| **Object** | `{foo: 'bar'}` | `[1,2,3]` ⟹ `[1,2,3]` <br> `"abc"` ⟹ `{0: 'a', 1: 'b', ...}` <br> `5` ⟹ `{0: 5}` <br> `true` ⟹ `{0: true}` |
-| **Array** | `[1, 2, 3]` | `notArrayType` ⟹ `[notArrayType]` |
-
-Note that the `Object` and `Array` are different types of data, and if you have a `strict` enabled, then when the array is checked, the object does not pass the validation.
+```javascript
+const models = {
+  users: {
+    $jsonSchema: {
+      bsonType: 'object',
+      properties: {
+        name: {
+          type: 'string'
+        },
+        age: {
+          type: 'number'
+        },
+        id: {
+          type: 'number'
+        },
+        ban: {
+          type: 'boolean'
+        }
+      },
+      required: ['name', 'id']
+    }
+  }
+};
+```
 
 ### Create connection
 
@@ -79,7 +111,6 @@ Note that the `Object` and `Array` are different types of data, and if you have 
 |:----------|:----:| :-------:| :------:|
 | models | object | yes | - |
 | log | **`false`**, **`true`**, `error`, `warn`, `info`, `verbose`, `debug`, `silly` | no | false |
-| strict | boolean | no | false |
 | db | string | yes | '' |
 | host | string | no | localhost |
 | user | string | no | '' |
@@ -87,7 +118,6 @@ Note that the `Object` and `Array` are different types of data, and if you have 
 | port | number/string | no | 27017 |
 
 - **log** — Set the logging.
-- **strict** — Strict validation mode, if `true`, then an error occurs if the data type is incorrect. If the mode is disabled, the data will be automatically corrected as much as possible.
 
 ```javascript
 const JustMongo = require('just-mongo');

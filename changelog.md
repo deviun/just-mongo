@@ -1,5 +1,10 @@
 # Change log 
 
+## v2.0
+- **2.0.0**
+  - Document validation is now performed on the server side of the database. Now you can configure more flexible document schemes.
+  - Due to the first point, very evil bugs disappeared.
+  - Have a nice work!
 ## v1.7
 - **1.7.9**
   - Fixed bugs for find with $or.
