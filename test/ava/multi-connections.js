@@ -39,15 +39,15 @@ test.serial('use multi', async (t) => {
   const avaDBc1 = $mongo.db.c1.collection('avaTests');
   const avaDBc2 = $mongo.db.c2.collection('avaTests');
 
-  await avaDBc1.deleteMany(Data);
-  await avaDBc2.deleteMany(Data);
+  await avaDBc1.deleteMany(Object.assign({}, Data));
+  await avaDBc2.deleteMany(Object.assign({}, Data));
 
-  await avaDBc1.insert(Data);
-  await avaDBc2.insert(Data);
+  await avaDBc1.insert(Object.assign({}, Data));
+  await avaDBc2.insert(Object.assign({}, Data));
 
   const [res1, res2] = await $Promise.all([
-    avaDBc1.findOne(Data),
-    avaDBc2.findOne(Data)
+    avaDBc1.findOne(Object.assign({}, Data)),
+    avaDBc2.findOne(Object.assign({}, Data))
   ]);
 
   delete res1.def;

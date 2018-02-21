@@ -21,7 +21,6 @@ const collectionCache = {};
 class JMongo {
   constructor (connection, cb, setConnection) {
     const logLevel = _.get(connection, 'log', false);
-    const strictMode = _.get(connection, 'strict', false);
 
     if (!logLevel) {
       $log.transports.console.level = 'none';
@@ -30,12 +29,23 @@ class JMongo {
     }
 
     this.connectionId = String((new Date()).getTime());
+    this.collectionReady = { 
+      status: false, 
+      connection: false 
+    };
+
     collectionCache[this.connectionId] = {};
+
+    const models = _.get(connection, 'models', {});
+    
+    $Model.init(models, this.collectionReady)
+      .catch((err) => {
+        $log.error(err);
+      });
     
     if (setConnection) {
       return Object.assign(this, {
-        connection: setConnection,
-        models: new $Model(_.get(connection, 'models', {}), strictMode)
+        connection: setConnection
       });
     }
 
@@ -51,10 +61,7 @@ class JMongo {
       connection: false
     });
 
-    const models = _.get(connection, 'models', {});
-
     this.connection = new $Connection(this.connectionConfig, cb);
-    this.models = new $Model(models, strictMode);
   }
 
   collection (name) {
@@ -64,7 +71,7 @@ class JMongo {
 
     collectionCache[this.connectionId][name] = new $Collection(
       this.connection, 
-      this.models.createValidator(name), 
+      this.collectionReady,
       name
     );
 

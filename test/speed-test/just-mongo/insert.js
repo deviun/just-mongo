@@ -12,10 +12,10 @@ async function test (params) {
 
   for (let i = 0; i < 5000; ++i) {
     docs.push({
-      string: 555,
-      number: '555',
+      string: 'string',
+      number: 555,
       object: {},
-      boolean: 'true'
+      boolean: true
     });
   }
 

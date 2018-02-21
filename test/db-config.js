@@ -1,5 +1,7 @@
 module.exports = {
   db: 'jmongo',
+  user: 'admin',
+  password: 'admin',
   models: {
     avaTests: {
       key: String,
@@ -7,7 +9,7 @@ module.exports = {
       def: {
         type: String,
         default: 'test',
-        isValid: (value) => true
+        isValid: () => true
       }
     },
     joinTo: {
@@ -39,13 +41,38 @@ module.exports = {
       object: Object
     },
     feed: {
-      data: String,
-      time: Number,
-      index: Number
+      $jsonSchema: {
+        bsonType: 'object',
+        properties: {
+          data: {
+            type: 'string'
+          },
+          time: {
+            type: 'number'
+          },
+          index: {
+            type: 'number'
+          }
+        }
+      }
     },
     incArray: {
       arr: Array,
       inc: Number
+    },
+    newAvaDB: {
+      $jsonSchema: {
+        bsonType: 'object',
+        required: [ 'key1' ],
+        properties: {
+          key1: {
+            type: 'string'
+          },
+          key2: {
+            type: 'number'
+          }
+        }
+      }
     }
   }  
 };

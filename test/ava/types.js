@@ -11,53 +11,6 @@ test.serial('connection', (t) => {
   return new $Promise((resolve) => {
     $mongo = new $JMongo({
       models,
-      db
-    }, function (err, ok) {
-      if (err) {
-        $log.error(err);
-        t.fail('failed connection to MongoDB');
-      } else {
-        t.pass();
-      }
-      
-      typesDB = $mongo.collection('types');
-      
-      resolve();
-    });
-  });
-});
-
-test.serial('check (without strict mode)', async (t) => {
-  const Data = {
-    string: 555,
-    number: '555',
-    boolean: 'true',
-    array: 'hello, array',
-    object: 'hello, object'
-  };
-
-  await typesDB.deleteMany();
-  await typesDB.insert(Data);
-
-  const result = await typesDB.findOne();
-  const expected = {
-    string: '555',
-    number: 555,
-    boolean: true,
-    array: ['hello, array'],
-    object: {'0':'h','1':'e','2':'l','3':'l','4':'o','5':',','6':' ','7':'o','8':'b','9':'j'
-    ,'10':'e','11':'c','12':'t'}
-  };
-
-  delete result._id;
-
-  t.deepEqual(result, expected);
-});
-
-test.serial('connection with strict mode', (t) => {
-  return new $Promise((resolve) => {
-    $mongo = new $JMongo({
-      models,
       db,
       strict: true
     }, function (err, ok) {
@@ -75,7 +28,7 @@ test.serial('connection with strict mode', (t) => {
   });
 });
 
-test.serial('check (with strict mode)', async (t) => {
+test.serial('check', async (t) => {
   const Data = {
     string: '555',
     number: 555,
@@ -86,7 +39,7 @@ test.serial('check (with strict mode)', async (t) => {
   };
 
   await typesDB.deleteMany();
-  await typesDB.insert(Data);
+  await typesDB.insert(Object.assign({}, Data));
 
   const result = await typesDB.findOne();
 
@@ -95,7 +48,7 @@ test.serial('check (with strict mode)', async (t) => {
   t.deepEqual(result, Data);
 });
 
-test.serial('error (with strict mode)', async (t) => {
+test.serial('error', async (t) => {
   const Data = {
     string: '555',
     number: 555,
@@ -109,11 +62,8 @@ test.serial('error (with strict mode)', async (t) => {
   await typesDB.deleteMany();
   await typesDB.insert(Data)
   .catch((err) => {
-    error = err;
-  });
+    error = true;
+  }); 
 
-  const errorPattern = /validation error: property ".+" has an invalid data type; data are .+, and an array is expected/;
-  const errorString = error.toString();
-
-  t.true(!!errorString.match(errorPattern));
+  t.true(error);
 });

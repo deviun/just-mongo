@@ -38,7 +38,10 @@ test.serial('check', async (t) => {
       data: `Current time: ${(new Date().getTime())}`,
       index: ++i, 
       time: (new Date()).getTime()
-    });
+    })
+      .catch((err) => {
+        $log.error(err);
+      });
   }, 500);
 
   let firstCheckTime;
