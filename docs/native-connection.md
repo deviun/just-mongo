@@ -6,7 +6,6 @@
 const mongodb = require('mongodb');
 const mongo = JustMongo.nativeConnection({
   models,
-  strict: true,
   log: 'debug'
 }, (resolve, reject) => {
   const connectionURI = `mongodb://127.0.0.1:27017/jmongo`;
