@@ -8,8 +8,7 @@ module.exports = {
       value: String,
       def: {
         type: String,
-        default: 'test',
-        isValid: () => true
+        default: 'test'
       }
     },
     joinTo: {
@@ -70,6 +69,76 @@ module.exports = {
           },
           key2: {
             type: 'number'
+          }
+        }
+      }
+    },
+    defaultCollection: {
+      $jsonSchema: {
+        bsonType: 'object',
+        properties: {
+          key1: {
+            type: 'string',
+            default: 'defaultString'
+          },
+          key2: {
+            type: 'object',
+            properties: {
+              key21: {
+                type: 'string',
+                default: 'def21String'
+              },
+              key22: {
+                type: 'string'
+              },
+              arrOfObjects: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    str: {
+                      type: 'string'
+                    },
+                    bool: {
+                      type: 'boolean',
+                      default: true
+                    }
+                  }
+                }
+              },
+              arr2Object: {
+                type: 'array',
+                items: [
+                  {
+                    type: 'object',
+                    properties: {
+                      str: {
+                        type: 'string'
+                      },
+                      bool: {
+                        type: 'boolean',
+                        default: true
+                      }
+                    }
+                  },
+                  {
+                    type: 'object',
+                    properties: {
+                      str: {
+                        type: 'string'
+                      },
+                      bool: {
+                        type: 'boolean',
+                        default: false
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            default: {
+              key21: 'defObj21'
+            }
           }
         }
       }

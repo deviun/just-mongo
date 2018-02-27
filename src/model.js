@@ -6,19 +6,21 @@ const _ = require('lodash');
 const $path = require('path');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
 const $Promise = require('bluebird');
+const $Default = require('./engines/default');
 
 class Model {
-  static async init (models, collectionReady) {
+  static async init (models, jprovider) {
     let db;
+    const defaultCollections = {};
 
     $log.debug('[%s] await connection for init', moduleName);
 
     await new $Promise((resolve) => {
       (function check () {
-        if (!collectionReady.connection) {
+        if (!jprovider.connection) {
           setTimeout(check, 250);
         } else {
-          db = collectionReady.connection;
+          db = jprovider.connection;
           resolve();
         }
       })()
@@ -33,6 +35,12 @@ class Model {
         schema = Model.createJsonSchema(models[collectionName]);
       } else {
         schema = models[collectionName].$jsonSchema;
+      }
+
+      const checkDefault = new $Default(collectionName, schema);
+
+      if (checkDefault.isDefault) {
+        defaultCollections[collectionName] = checkDefault;
       }
 
       const validatorOptions = {
@@ -71,7 +79,8 @@ class Model {
       $log.debug('[%s] schema for "%s" created. ', moduleName, collectionName, schema, 'result: ', setSchema);
     }
 
-    collectionReady.status = true;
+    jprovider.defaultCollections = defaultCollections;
+    jprovider.collectionReady = true;
   }
 
   static createJsonSchema (oldSchema) {
@@ -117,6 +126,10 @@ class Model {
           }
           
           schema.required.push(property);
+        }
+
+        if (value.default) {
+          prop.default = value.default;
         }
       } else {
         throw new Error('collection model is invalid type');

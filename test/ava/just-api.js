@@ -39,12 +39,17 @@ test.serial('collection.deleteMany', async (t) => {
 test.serial('collection.insert', async (t) => {
   t.plan(2);
 
-  await avaDB.insert({
+  const doc = {
     key: 'kkkk',
     value: 'vvvv'
-  });
+  };
 
-  t.pass();
+  await avaDB.insert(Object.assign({}, doc));
+  const item = await avaDB.findOne({key: 'kkkk'});
+
+  delete item._id;
+
+  t.deepEqual(Object.assign({def: 'test'}, doc), item);
 
   await avaDB.insert([
     {key: 'k2', value: 'v2'},

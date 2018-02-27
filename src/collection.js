@@ -14,11 +14,11 @@ const $listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
 const {ObjectIDReplacer, ObjectID} = require($path.resolve(ROOT, 'src/object-id'));
 
 class Collection {
-  constructor (connection, collectionReady, name) {
+  constructor (connection, jprovider, name) {
     Object.assign(this, {
       connection,
       name,
-      collectionReady
+      jprovider
     });
 
     this.createCollection();
@@ -37,10 +37,10 @@ class Collection {
       const checkConnection = async () => {
         isConnection = this.connection.isConnection();
 
-        $log.debug('[%s] checkConnection, options: ', moduleName, options || {}, 'collectionReadyStatus', this.collectionReady.status);
+        $log.debug('[%s] checkConnection, options: ', moduleName, options || {}, 'collectionReadyStatus', this.jprovider.collectionReady);
 
         if (isConnection &&
-           ( _.get(options, 'ignoreCollectionReady') ? true : this.collectionReady.status )
+           ( _.get(options, 'ignoreCollectionReady') ? true : this.jprovider.collectionReady )
         ) {
           return resolve(true);
         } else {
@@ -62,7 +62,7 @@ class Collection {
       ignoreCollectionReady: true
     });
 
-    this.collectionReady.connection = this.connection.db;
+    this.jprovider.connection = this.connection.db;
     this.collection = this.connection.db.collection(this.name);
   }
 
@@ -82,6 +82,12 @@ class Collection {
       $log.error('[%s]', moduleName, newError);
 
       throw new Error(newError);
+    }
+
+    const defaultSchema = this.jprovider.defaultCollections[this.name];
+
+    if (defaultSchema) {
+      list = list.map((doc) => defaultSchema.setDefault(doc));
     }
 
     return await this.collection.insertMany(list, options);
