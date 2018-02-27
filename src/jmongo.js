@@ -29,8 +29,8 @@ class JMongo {
     }
 
     this.connectionId = String((new Date()).getTime());
-    this.collectionReady = { 
-      status: false, 
+    this.jprovider = { 
+      collectionReady: false, 
       connection: false 
     };
 
@@ -38,7 +38,7 @@ class JMongo {
 
     const models = _.get(connection, 'models', {});
     
-    $Model.init(models, this.collectionReady)
+    $Model.init(models, this.jprovider)
       .catch((err) => {
         $log.error(err);
       });
@@ -71,7 +71,7 @@ class JMongo {
 
     collectionCache[this.connectionId][name] = new $Collection(
       this.connection, 
-      this.collectionReady,
+      this.jprovider,
       name
     );
 

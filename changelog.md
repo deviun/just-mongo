@@ -1,5 +1,8 @@
 # Change log 
 
+## v2.1
+- **2.1.0**
+  - Added support for default values for schemas. Not supported in inaccurate schemes.
 ## v2.0
 - **2.0.0**
   - Document validation is now performed on the server side of the database. Now you can configure more flexible document schemes.

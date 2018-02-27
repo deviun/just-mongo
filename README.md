@@ -1,4 +1,4 @@
-# Just Mongo 2.0 `alpha`
+# Just Mongo 2.1 (beta)
 [![just-mongo](https://img.shields.io/npm/v/just-mongo.svg?style=flat-square)](https://www.npmjs.com/package/just-mongo/)
 
 Simple and fast wrapper for MongoDB.
@@ -39,9 +39,7 @@ Please, read next posts:
 The following should be considered when upgrading the version:
 
 - It is desirable to update old models to new json schemes.
-- Old models will work in limited functionality. Stop working: `isValid`, `default`.
-
-> You may soon be able to set the default values for document properties.
+- Old models will work in limited functionality. Stop working: `isValid`.
 
 ## Install
 
@@ -72,7 +70,8 @@ const models = {
       required: true
     },
     ban: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   }
 };
@@ -96,7 +95,8 @@ const models = {
           type: 'number'
         },
         ban: {
-          type: 'boolean'
+          type: 'boolean',
+          default: false
         }
       },
       required: ['name', 'id']
@@ -104,6 +104,8 @@ const models = {
   }
 };
 ```
+
+> The default values are not supported by the database itself, the values are set before creating the records. Do not use the default values in schemes in `allOf`, `anyOf`, `oneOf`, .etc.
 
 ### Create connection
 
