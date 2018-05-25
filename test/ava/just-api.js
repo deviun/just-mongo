@@ -59,7 +59,7 @@ test.serial('collection.insert', async (t) => {
   t.pass();
 });
 
-test.serial('collection.inset (0 docs)', async (t) =>{
+test.serial('collection.insert (0 docs)', async (t) =>{
   await avaDB.insert([]);
 
   t.pass();
