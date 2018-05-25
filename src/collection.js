@@ -84,6 +84,10 @@ class Collection {
       throw new Error(newError);
     }
 
+    if (!list.length) {
+      return;
+    }
+
     const defaultSchema = this.jprovider.defaultCollections[this.name];
 
     if (defaultSchema) {

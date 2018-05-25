@@ -59,6 +59,12 @@ test.serial('collection.insert', async (t) => {
   t.pass();
 });
 
+test.serial('collection.inset (0 docs)', async (t) =>{
+  await avaDB.insert([]);
+
+  t.pass();
+});
+
 test.serial('collection.count', async (t) => {
   const count = await avaDB.count();
 
