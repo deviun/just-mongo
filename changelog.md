@@ -1,6 +1,9 @@
 # Change log 
 
 ## v2.1
+- **2.1.1**
+  - Fixed insert 0 docs.
+  - Fixed config for ava tests.
 - **2.1.0**
   - Added support for default values for schemas. Not supported in inaccurate schemes.
 ## v2.0
