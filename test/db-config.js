@@ -1,7 +1,7 @@
 module.exports = {
   db: 'jmongo',
-  user: 'admin',
-  password: 'admin',
+  user: false,
+  password: false,
   models: {
     avaTests: {
       key: String,
