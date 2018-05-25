@@ -1,6 +1,6 @@
 {
   "name": "just-mongo",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "bluebird": "3.5.1",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "mongodb": "2.2.33",
     "winston": "2.4.0"
   },

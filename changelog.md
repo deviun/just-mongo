@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.1
+- **2.1.2**
+  - NEW lodash version.
 - **2.1.1**
   - Fixed insert 0 docs.
   - Fixed config for ava tests.
