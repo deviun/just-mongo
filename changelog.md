@@ -1,6 +1,9 @@
 # Change log 
 
 ## v2.1
+- **2.1.3**
+  - Optimize code.
+  - Force use safe mode in join engine. For more read docs about the Join engine.
 - **2.1.2**
   - NEW lodash version.
 - **2.1.1**
