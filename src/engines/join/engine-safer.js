@@ -1,7 +1,4 @@
-const ROOT = `${__dirname}/../../../`;
-const moduleName = 'jmongo.engines.join.safer';
-
-const get = require('lodash');
+const get = require('lodash/get');
 
 const aggregateMap = require('./aggregate-map');
 
@@ -9,7 +6,7 @@ async function safer (filter, joinCollection, joinField, project, options) {
   const skip = get(options, 'skip', 0);
   const limit = get(options, 'limit', 100);
   const sort = get(options, 'sort', false);
-
+  
   const itemsForJoin = await this.find(filter, {
     limit, skip, sort
   });
