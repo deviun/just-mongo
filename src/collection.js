@@ -170,7 +170,7 @@ class Collection {
 
     query = ObjectIDReplacer.findAndReplace(query);
 
-    $log.debug('[%s][find] query:', moduleName, query);
+    $log.debug('[%s][find] query:', moduleName, query, options);
 
     const cursor = this.collection.find(query);
 
