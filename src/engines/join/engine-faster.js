@@ -1,22 +1,23 @@
 const ROOT = `${__dirname}/../../../`;
 const moduleName = 'jmongo.engines.join.faster';
 
-const _ = require('lodash');
+const get = require('lodash/get');
+const isObject = require('lodash/isObject');
 
 const aggregateMap = require('./aggregate-map');
 
 async function faster (filter, joinCollection, joinField, project, options) {
   const aggregatePipeline = [];
 
-  if (_.isObject(filter)) {
+  if (isObject(filter)) {
     aggregatePipeline.push({
       $match: filter
     });
   }
 
-  const skip = _.get(options, 'skip', 0);
-  const limit = _.get(options, 'limit', 100);
-  const sort = _.get(options, 'sort', false);
+  const skip = get(options, 'skip', 0);
+  const limit = get(options, 'limit', 100);
+  const sort = get(options, 'sort', false);
 
   if (sort) {
     aggregatePipeline.push({

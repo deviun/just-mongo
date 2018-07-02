@@ -1,7 +1,7 @@
 const ROOT = `${__dirname}/../`;
 const moduleName = 'jmongo.collection';
 
-const _ = require('lodash');
+const get = require('lodash/get');
 
 const $path = require('path');
 const $Promise = require('bluebird');
@@ -40,7 +40,7 @@ class Collection {
         $log.debug('[%s] checkConnection, options: ', moduleName, options || {}, 'collectionReadyStatus', this.jprovider.collectionReady);
 
         if (isConnection &&
-           ( _.get(options, 'ignoreCollectionReady') ? true : this.jprovider.collectionReady )
+           ( get(options, 'ignoreCollectionReady') ? true : this.jprovider.collectionReady )
         ) {
           return resolve(true);
         } else {
@@ -294,7 +294,7 @@ class Collection {
       }
     });
 
-    const projectDocuments = _.get(options, 'project');
+    const projectDocuments = get(options, 'project');
 
     if (projectDocuments) {
       aggregatePipeline.push({
