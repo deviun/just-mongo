@@ -1,6 +1,6 @@
 const ROOT = `${__dirname}/../`;
 
-const _ = require('lodash');
+const get = require('lodash/get');
 
 const $path = require('path');
 const $Connection = require($path.resolve(ROOT, 'src/connection'));
@@ -20,7 +20,7 @@ const collectionCache = {};
 
 class JMongo {
   constructor (connection, cb, setConnection) {
-    const logLevel = _.get(connection, 'log', false);
+    const logLevel = get(connection, 'log', false);
 
     if (!logLevel) {
       $log.transports.console.level = 'none';
@@ -36,7 +36,7 @@ class JMongo {
 
     collectionCache[this.connectionId] = {};
 
-    const models = _.get(connection, 'models', {});
+    const models = get(connection, 'models', {});
     
     $Model.init(models, this.jprovider)
       .catch((err) => {
@@ -51,12 +51,12 @@ class JMongo {
 
     Object.assign(this, {
       connectionConfig: Object.assign({}, {
-        host: _.get(connection, 'host', authDefault.host),
-        user: _.get(connection, 'user', authDefault.user),
-        password: _.get(connection, 'password', authDefault.password),
-        port: _.get(connection, 'port', authDefault.port),
-        db: _.get(connection, 'db', authDefault.db),
-        replica: _.get(connection, 'replica', authDefault.replica),
+        host: get(connection, 'host', authDefault.host),
+        user: get(connection, 'user', authDefault.user),
+        password: get(connection, 'password', authDefault.password),
+        port: get(connection, 'port', authDefault.port),
+        db: get(connection, 'db', authDefault.db),
+        replica: get(connection, 'replica', authDefault.replica),
       }),
       connection: false
     });

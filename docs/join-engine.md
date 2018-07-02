@@ -27,7 +27,7 @@ Description of parameters:
 | joinCollection | object | yes | - | Collection from which will be merged |
 | collectionLink | object | yes | - | Describes the relationship between two collections |
 | newDocumentView | object | yes | - | Describes a new kind of document using links to fields in two collections. <br> `newProperty: '[0-1].{property}',` <br> **0** - main collection. <br> **1** - joined collection. |
-| options | object | no | false | Sampling settings from the main collection: <br> **limit**, **skip**, **sort** <br> And the settings for sampling from the second collection: <br> ***joinDocument***  |
+| options | object | no | false | Sampling settings from the main collection: <br> **limit**, **skip**, **sort** <br> And the settings for sampling from the second collection: <br> ***joinDocument***. Also, use ***safeMode*** option to force use safe engine (As example to join different databases) |
 
 The example above uses only one query to the database, it's fast and efficient, but only if one connection record is expected.
 

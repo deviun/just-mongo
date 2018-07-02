@@ -5,14 +5,24 @@ const $log = require('../../src/libs/log');
 const $Promise = require('bluebird');
 const {models, db} = require('../db-config');
 
-
-let $mongo, joinTo, joinFrom;
+  let $mongo, joinTo, joinFrom, $differentDB, diffCollection;
 
 test.serial('connection', (t) => {
   return new $Promise((resolve) => {
+    let resolved = 0;
+
+    function resOne () {
+      ++resolved;
+
+      if (resolved === 2) {
+        resolve();
+      }
+    }
+
     $mongo = new $JMongo({
       models,
-      db
+      db,
+      log: process.env.LOG_LEVEL || false
     }, function (err, ok) {
       if (err) {
         $log.error(err);
@@ -24,7 +34,17 @@ test.serial('connection', (t) => {
       joinTo = $mongo.collection('joinTo');
       joinFrom = $mongo.collection('joinFrom');
       
-      resolve();
+      resOne();
+    });
+
+    $differentDB = new $JMongo({
+      models,
+      db: 'differentDBAvaTests',
+      log: process.env.LOG_LEVEL || false
+    }, function () {
+      diffCollection = $differentDB.collection('joinFrom');
+
+      resOne();
     });
   });
 });
@@ -85,4 +105,30 @@ test.serial('join', async (t) => {
   });
 
   t.deepEqual(joinResult2[0], objExpected);
+});
+
+test.serial('join another dbs', async (t) => {
+  await joinTo.deleteMany();
+  await diffCollection.deleteMany();
+
+  await joinTo.insert(Data.joinTo);
+  await diffCollection.insert(Data.joinFrom);
+
+  const joinResult = await joinTo.join(false, diffCollection, { user_id: 'id' }, {
+    user_id: '0.user_id',
+    user_name: '1.name',
+    text: '0.text',
+    time: '0.time'
+  }, {
+    safeMode: true
+  });
+
+  const objExpected = {
+    user_id: Data.joinTo.user_id,
+    user_name: Data.joinFrom.name,
+    text: Data.joinTo.text,
+    time: Data.joinTo.time
+  };
+
+  t.deepEqual(joinResult[0], objExpected);
 });
