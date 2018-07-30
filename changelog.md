@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.1
+- **2.1.5**
+  - Change detect ObjectID in queries
 - **2.1.4**
   - Fix replace _id to object id in $in
 - **2.1.3**
