@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.1
+- **2.1.4**
+  - Fix replace _id to object id in $in
 - **2.1.3**
   - Optimize code.
   - Force use safe mode in join engine. For more read docs about the Join engine.
