@@ -48,7 +48,7 @@ test.serial('find', async (t) => {
   t.deepEqual(item, find);
 });
 
-test.serial('find use settings keys', async (t) => {
+test.serial('find use settings keys $ne', async (t) => {
   const item = await avaDB.findOne();
   const stringId = String(item._id);
   const find = await avaDB.findOne({
@@ -56,6 +56,16 @@ test.serial('find use settings keys', async (t) => {
   });
 
   t.notDeepEqual(item, find);
+});
+
+test.serial('find use settings keys $in', async (t) => {
+  const item = await avaDB.findOne();
+  const stringId = String(item._id);
+  const find = await avaDB.findOne({
+    _id: { $in: [stringId]  }
+  });
+
+  t.deepEqual(item, find);
 });
 
 test.serial('update', async (t) => {
