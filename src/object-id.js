@@ -5,19 +5,33 @@ const mongoSKRegExp = /\$[a-z_0-9]+/i;
 class ObjectIDReplacer {
   static findString (obj) {
     function find (obj) {
+      const isArray = obj instanceof Array;
+
       return Object.keys(obj).reduce((r, key) => {
         const item = obj[key];
         
         if (typeof item === 'string') {
-          r[key] = new ObjectID(obj[key]);
+          if (isArray) {
+            r.push(new ObjectID(obj[key]));
+          } else {
+            r[key] = new ObjectID(obj[key]);
+          }
         } else if (typeof item === 'object') {
-          r[key] = find(obj[key]);
+          if (isArray) {
+            r.push(find(obj[key]));
+          } else {
+            r[key] = find(obj[key]);
+          }
         } else {
-          r[key] = obj[key];
+          if (isArray) {
+            r.push(obj[key]);
+          } else {
+            r[key] = obj[key];
+          }
         }
 
         return r;
-      }, {});
+      }, isArray ? [] : {});
     }
 
     return find(obj);
