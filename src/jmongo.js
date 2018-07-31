@@ -1,12 +1,9 @@
-const ROOT = `${__dirname}/../`;
-
 const get = require('lodash/get');
 
-const $path = require('path');
-const $Connection = require($path.resolve(ROOT, 'src/connection'));
-const $Model = require($path.resolve(ROOT, 'src/model'));
-const $Collection = require($path.resolve(ROOT, 'src/collection'));
-const $log = require($path.resolve(ROOT, 'src/libs/log'));
+const $Connection = require('./connection');
+const $Model = require('./model');
+const $Collection = require('./collection');
+const $log = require('./lib/log');
 
 const authDefault = {
   host: '127.0.0.1',
