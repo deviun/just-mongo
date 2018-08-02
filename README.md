@@ -272,4 +272,4 @@ In case you need to create your own flexible connection using **mongodb native**
 
 ## License
 
-ISC.
+MIT.

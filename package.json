@@ -19,7 +19,7 @@
   "engines": {
     "node": ">= 7.0.0"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ava": "0.24.0",
     "babel-eslint": "8.0.2",
