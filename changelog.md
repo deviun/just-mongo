@@ -1,6 +1,9 @@
 # Change log 
 
 ## v2.1
+- **2.1.6**
+  - Create connection without models
+  - Move to MIT License
 - **2.1.5**
   - Change detect ObjectID in queries
 - **2.1.4**
