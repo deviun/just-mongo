@@ -3,7 +3,7 @@ const get = require('lodash/get');
 const $Connection = require('./connection');
 const $Model = require('./model');
 const $Collection = require('./collection');
-const $log = require('./lib/log');
+const $log = require('./libs/log');
 
 const authDefault = {
   host: '127.0.0.1',
@@ -33,12 +33,14 @@ class JMongo {
 
     collectionCache[this.connectionId] = {};
 
-    const models = get(connection, 'models', {});
-    
-    $Model.init(models, this.jprovider)
-      .catch((err) => {
-        $log.error(err);
-      });
+    const models = get(connection, 'models');
+
+    if (models) {
+      $Model.init(models, this.jprovider)
+        .catch((err) => {
+          $log.error(err);
+        });
+    }
     
     if (setConnection) {
       return Object.assign(this, {
