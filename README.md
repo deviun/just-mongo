@@ -111,7 +111,7 @@ const models = {
 
 | Parameter | Type | Requried | Default |
 |:----------|:----:| :-------:| :------:|
-| models | object | yes | - |
+| models | object | no | - |
 | log | **`false`**, **`true`**, `error`, `warn`, `info`, `verbose`, `debug`, `silly` | no | false |
 | db | string | yes | '' |
 | host | string | no | localhost |
