@@ -9,7 +9,7 @@ Less code and more action.
 
 Just Mongo allows you to use a simplified API. Inside, we try to use minimalistic solutions that do not steal your time.
 
-You choose the possibilities of the library, and nothing superfluous.
+You choose the possibilities of the library, and nothing more.
 
 ## Speed ➵
 
@@ -27,8 +27,8 @@ All tests are in directory: [test/speed-test](https://github.com/deviun/just-mon
 
 ## Feature compatibility
 
-Just-Mongo 2 uses the new version of mongodb. 
-Please, read next posts:
+Just-Mongo 2 has new possibilities of mongodb. 
+Please, note this:
 
  - https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/
 
@@ -36,9 +36,9 @@ Please, read next posts:
 
 ## Switching from v1.x
 
-The following should be considered when upgrading the version:
+The following should be know when upgrading version:
 
-- It is desirable to update old models to new json schemes.
+- Better, update old models to new json schemes.
 - Old models will work in limited functionality. Stop working: `isValid`.
 
 ## Install
