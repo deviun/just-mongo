@@ -1,12 +1,9 @@
-const ROOT = `${__dirname}/../`;
-
 const get = require('lodash/get');
 
-const $path = require('path');
-const $Connection = require($path.resolve(ROOT, 'src/connection'));
-const $Model = require($path.resolve(ROOT, 'src/model'));
-const $Collection = require($path.resolve(ROOT, 'src/collection'));
-const $log = require($path.resolve(ROOT, 'src/libs/log'));
+const $Connection = require('./connection');
+const $Model = require('./model');
+const $Collection = require('./collection');
+const $log = require('./libs/log');
 
 const authDefault = {
   host: '127.0.0.1',
@@ -36,12 +33,14 @@ class JMongo {
 
     collectionCache[this.connectionId] = {};
 
-    const models = get(connection, 'models', {});
-    
-    $Model.init(models, this.jprovider)
-      .catch((err) => {
-        $log.error(err);
-      });
+    const models = get(connection, 'models');
+
+    if (models) {
+      $Model.init(models, this.jprovider)
+        .catch((err) => {
+          $log.error(err);
+        });
+    }
     
     if (setConnection) {
       return Object.assign(this, {

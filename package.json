@@ -1,6 +1,6 @@
 {
   "name": "just-mongo",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Just using mongoDB",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "engines": {
     "node": ">= 7.0.0"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ava": "0.24.0",
     "babel-eslint": "8.0.2",
