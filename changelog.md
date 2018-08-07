@@ -1,7 +1,7 @@
 # Change log 
 
 ## v2.1
-- **2.1.6**
+- **2.1.7**
   - Hotfix for collection ready without models
 - **2.1.6**
   - Create connection without models
