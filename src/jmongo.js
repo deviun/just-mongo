@@ -40,6 +40,8 @@ class JMongo {
         .catch((err) => {
           $log.error(err);
         });
+    } else {
+      this.jprovider.collectionReady = true;
     }
     
     if (setConnection) {
