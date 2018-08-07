@@ -2,6 +2,8 @@
 
 ## v2.1
 - **2.1.6**
+  - Hotfix for collection ready without models
+- **2.1.6**
   - Create connection without models
   - Move to MIT License
 - **2.1.5**
