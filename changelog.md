@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.1
+- **2.1.8**
+  - Fixed get default values from jprovider if default values dont inited
 - **2.1.7**
   - Hotfix for collection ready without models
 - **2.1.6**
