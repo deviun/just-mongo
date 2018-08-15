@@ -88,7 +88,7 @@ class Collection {
       return;
     }
 
-    const defaultSchema = this.jprovider.defaultCollections[this.name];
+    const defaultSchema = get(this, 'jprovider.defaultCollections.' + this.name);
 
     if (defaultSchema) {
       list = list.map((doc) => defaultSchema.setDefault(doc));
