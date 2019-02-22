@@ -1,10 +1,11 @@
 # Change log 
 
-## v2.1
-- **2.1.9**
+## v2.2
+- **2.2.0**
     - Declared types (for Typescript)
     - Minor refactoring
-    — Export default JMongo (use `import JMongo from` or `require(...).default`)
+    - Export default JMongo (use `import JMongo from` or `require(...).default`)
+## v2.1
 - **2.1.8**
   - Fixed get default values from jprovider if default values dont inited
 - **2.1.7**
