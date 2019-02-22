@@ -6,7 +6,7 @@ const isObject = require('lodash/isObject');
 
 const aggregateMap = require('./aggregate-map');
 
-async function faster (filter, joinCollection, joinField, project, options) {
+async function faster(filter, joinCollection, joinField, project, options) {
   const aggregatePipeline = [];
 
   if (isObject(filter)) {

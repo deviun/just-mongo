@@ -1,5 +1,5 @@
 class Default {
-  constructor (collectionName, schema) {
+  constructor(collectionName, schema) {
     Object.assign(this, {
       collectionName,
       schema,
@@ -9,7 +9,7 @@ class Default {
     this.isDefault = Default.scan(this.schema);
   }
 
-  static scan (schema) {
+  static scan(schema) {
     let is;
     const schemaType = Default.getType(schema);
 
@@ -50,11 +50,11 @@ class Default {
     return is;
   }
 
-  static getType (schema) {
+  static getType(schema) {
     return schema.bsonType || schema.type || 'unknown';
   }
 
-  setDefault (doc, schema = this.origSchema) {
+  setDefault(doc, schema = this.origSchema) {
     if (!doc && typeof schema.default !== 'undefined') {
       return schema.default;
     } else if (!doc && typeof schema.default === 'undefined') {
