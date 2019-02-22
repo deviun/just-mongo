@@ -1,4 +1,4 @@
-# Just Mongo 2.1 
+# Just Mongo 2.2
 [![just-mongo](https://img.shields.io/npm/v/just-mongo.svg?style=flat-square)](https://www.npmjs.com/package/just-mongo/)
 
 Simple and fast wrapper for MongoDB.
@@ -122,7 +122,8 @@ const models = {
 - **log** — Set the logging.
 
 ```javascript
-const JustMongo = require('just-mongo');
+import JustMongo from 'just-mongo'
+// const JustMongo = require('just-mongo').default;
 
 const mongo = new JustMongo({
   models,
