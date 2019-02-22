@@ -1,1 +1,1 @@
-module.exports = require('./src/jmongo');
+exports.default = require('./src/jmongo');

@@ -16,7 +16,7 @@ const authDefault = {
 const collectionCache = {};
 
 class JMongo {
-  constructor (connection, cb, setConnection) {
+  constructor(connection, cb, setConnection) {
     const logLevel = get(connection, 'log', false);
 
     if (!logLevel) {
@@ -65,7 +65,7 @@ class JMongo {
     this.connection = new $Connection(this.connectionConfig, cb);
   }
 
-  collection (name) {
+  collection(name) {
     if (collectionCache[this.connectionId][name]) {
       return collectionCache[this.connectionId][name];
     }
@@ -79,11 +79,11 @@ class JMongo {
     return collectionCache[this.connectionId][name];
   }
 
-  setDocumentProject (name, replacer) {
+  setDocumentProject(name, replacer) {
     this.collection(name).documentProject = replacer;
   }
 
-  static nativeConnection (options, sandbox) {
+  static nativeConnection(options, sandbox) {
     return new JMongo(
       options, 
       null, 
@@ -91,7 +91,7 @@ class JMongo {
     );
   }
 
-  static multi (connections) {
+  static multi(connections) {
     return {db: connections};
   }
 

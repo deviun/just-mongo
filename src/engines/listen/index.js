@@ -5,7 +5,7 @@ const EventEmitter = require('events');
 const _ = require('lodash');
 
 class Listen extends EventEmitter {
-  constructor (getUpdates, timeout = 250) {
+  constructor(getUpdates, timeout = 250) {
     super();
 
     Object.assign(this, {
@@ -19,7 +19,7 @@ class Listen extends EventEmitter {
     this._check();
   }
 
-  async _check () {
+  async _check() {
     if (this.stop) {
       return;
     }
@@ -45,25 +45,25 @@ class Listen extends EventEmitter {
     }
   }
 
-  addListener (cb) {
+  addListener(cb) {
     super.addListener('updates', cb);
 
     return this;
   }
 
-  removeListener (cb) {
+  removeListener(cb) {
     super.removeListener('updates', cb);
 
     return this;
   }
 
-  close () {
+  close() {
     clearTimeout(this.lastCheckTimer);
     super.removeAllListeners();
     this.stop = true;
   }
 
-  error (cb) {
+  error(cb) {
     this.errorHandler = cb;
 
     return this;

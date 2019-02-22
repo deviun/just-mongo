@@ -3,7 +3,7 @@ const moduleName = 'jmongo.engines.join.aggregate-map';
 
 const _ = require('lodash');
 
-function aggregateMap (item) {
+function aggregateMap(item) {
   const {joinArray} = item;
   const [joinDocument] = joinArray;
   const newDocument = {};

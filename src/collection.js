@@ -14,7 +14,7 @@ const $listenEngine = require($path.resolve(ROOT, 'src/engines/listen'));
 const {ObjectIDReplacer, ObjectID} = require($path.resolve(ROOT, 'src/object-id'));
 
 class Collection {
-  constructor (connection, jprovider, name) {
+  constructor(connection, jprovider, name) {
     Object.assign(this, {
       connection,
       name,
@@ -24,7 +24,7 @@ class Collection {
     this.createCollection();
   }
 
-  async checkConnection (options) {
+  async checkConnection(options) {
     let isConnection;
 
     if (isConnection) {
@@ -57,7 +57,7 @@ class Collection {
     });
   }
 
-  async createCollection () {
+  async createCollection() {
     await this.checkConnection({
       ignoreCollectionReady: true
     });
@@ -66,7 +66,7 @@ class Collection {
     this.collection = this.connection.db.collection(this.name);
   }
 
-  async insert (list, options) {
+  async insert(list, options) {
     await this.checkConnection();
 
     $log.debug('[%s][insert] list:', moduleName, list);
@@ -97,7 +97,7 @@ class Collection {
     return await this.collection.insertMany(list, options);
   }
 
-  async deleteMany (filter, options) {
+  async deleteMany(filter, options) {
     await this.checkConnection();
 
     if (!filter) {
@@ -111,7 +111,7 @@ class Collection {
     return await this.collection.deleteMany(filter, options);
   }
 
-  async deleteOne (filter, options) {
+  async deleteOne(filter, options) {
     await this.checkConnection();
 
     if (!filter) {
@@ -125,7 +125,7 @@ class Collection {
     return await this.collection.deleteOne(filter, options);
   }
 
-  async count (query, options) {
+  async count(query, options) {
     await this.checkConnection();
 
     if (!query) {
@@ -137,11 +137,11 @@ class Collection {
     return await this.collection.count(query, options);
   }
 
-  ObjectID (id) {
+  ObjectID(id) {
     return new ObjectID(id);
   }
 
-  async findOne (query, options) {
+  async findOne(query, options) {
     await this.checkConnection();
 
     if (!query) {
@@ -161,7 +161,7 @@ class Collection {
     }
   }
 
-  async find (query, options) {
+  async find(query, options) {
     await this.checkConnection();
 
     if (!query) { // for "false", "null" .etc
@@ -195,7 +195,7 @@ class Collection {
     });
   }
 
-  _project (result) {
+  _project(result) {
     if (result instanceof Array) {
       return result.map((item) => this.documentProject.apply(item));
     } else if (typeof result === 'object') {
@@ -205,7 +205,7 @@ class Collection {
     }
   }
 
-  async updateOne (filter, update, options) {
+  async updateOne(filter, update, options) {
     await this.checkConnection();
 
     if (!filter) {
@@ -221,7 +221,7 @@ class Collection {
     return await this.collection.updateOne(filter, update, options);
   }
 
-  async updateMany (filter, update, options) {
+  async updateMany(filter, update, options) {
     await this.checkConnection();
 
     if (!filter) {
@@ -237,19 +237,19 @@ class Collection {
     return await this.collection.updateMany(filter, update, options);
   }
 
-  async editOne (filter, update, options) {
+  async editOne(filter, update, options) {
     return this.updateOne(filter, {
       $set: update
     }, options);
   }
 
-  async editMany (filter, update, options) {
+  async editMany(filter, update, options) {
     return this.updateMany(filter, {
       $set: update
     }, options);
   }
 
-  async aggregate (pipeline, options = {}) {
+  async aggregate(pipeline, options = {}) {
     await this.checkConnection();
 
     $log.debug(
@@ -269,7 +269,7 @@ class Collection {
     });
   }
 
-  async native (cb) {
+  async native(cb) {
     await this.checkConnection();
 
     return await new $Promise((resolve, reject) => {
@@ -277,7 +277,7 @@ class Collection {
     });
   }
 
-  async findRandom (where, count = 5, options) {
+  async findRandom(where, count = 5, options) {
     await this.checkConnection();
 
     const aggregatePipeline = [];
@@ -305,13 +305,13 @@ class Collection {
     return await this.aggregate(aggregatePipeline);
   }
 
-  async join (filter, joinCollection, joinField, project, options) {
+  async join(filter, joinCollection, joinField, project, options) {
     await this.checkConnection();
     
     return await $joinEngine.apply(this, arguments);
   }
 
-  listen (getUpdates, timeout) {
+  listen(getUpdates, timeout) {
     return new $listenEngine(...arguments);
   }
 

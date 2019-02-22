@@ -1,6 +1,6 @@
 const { test } = require('ava');
 
-const $JMongo = require('../../');
+const $JMongo = require('../../').default;
 const $log = require('../../src/libs/log');
 const $Promise = require('bluebird');
 const { db } = require('../db-config');
