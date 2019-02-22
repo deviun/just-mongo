@@ -56,5 +56,5 @@ declare module "just-mongo" {
     collection(name: string): Collection;
   }
 
-  export = JMongo;
+  export default JMongo;
 }
