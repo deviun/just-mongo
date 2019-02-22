@@ -1,7 +1,7 @@
 const ROOT = `${__dirname}/../../../`;
 
 const $path = require('path');
-const $JMongo = require($path.resolve(ROOT, 'index.js'));
+const $JMongo = require($path.resolve(ROOT, 'index.js')).default;
 const $Promise = require('bluebird');
 const $log = require($path.resolve(ROOT, 'src/libs/log'));
 
