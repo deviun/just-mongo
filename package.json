@@ -1,6 +1,6 @@
 {
   "name": "just-mongo",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Just using mongoDB",
   "main": "index.js",
   "types": "index.d.ts",

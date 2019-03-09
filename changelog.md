@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.2
+- **2.2.3**
+    - Fix types
 - **2.2.2**
     - Update lodash version
 - **2.2.1**
