@@ -1,5 +1,5 @@
 declare module "just-mongo" {
-  interface Connection {
+  export interface Connection {
     models?: any,
     log?: string,
     db?: string,
@@ -9,30 +9,30 @@ declare module "just-mongo" {
     port?: number,
   }
 
-  interface MongoFilter {
+  export interface MongoFilter {
 
   }
 
-  interface MongoResponse {
+  export interface MongoResponse {
 
   }
 
-  interface PipelineItem {
+  export interface PipelineItem {
 
   }
 
-  interface NativeInterface {
+  export interface NativeInterface {
 
   }
 
-  class Listen {
+  export class Listen {
     addListener(cb: Function): Listen;
     removeListener(cb: Function): Listen;
     close(): void;
     error(cb: Function): Listen;
   }
 
-  class Collection {
+  export class Collection {
     insert<T>(list: object[] | object): Promise<object>
     deleteMany(filter: MongoFilter, options?: object): Promise<object>
     deleteOne(filter: MongoFilter, options?: object): Promise<object>
@@ -51,7 +51,7 @@ declare module "just-mongo" {
     listen(getUpdates: Function, timeout?: number): Listen
   }
 
-  class JMongo {
+  export class JMongo {
     constructor(connection: Connection, cb?: Function, setConnection?: any);
     collection(name: string): Collection;
   }
