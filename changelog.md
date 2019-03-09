@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.2
+- **2.2.2**
+    - Update lodash version
 - **2.2.1**
     - Fix TypeScript declaration
 - **2.2.0**
