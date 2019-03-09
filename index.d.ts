@@ -33,21 +33,21 @@ declare module "just-mongo" {
   }
 
   export class Collection {
-    insert<T>(list: object[] | object): Promise<object>
-    deleteMany(filter: MongoFilter, options?: object): Promise<object>
-    deleteOne(filter: MongoFilter, options?: object): Promise<object>
-    count(filter?: MongoFilter, options?: object): Promise<number>
-    ObjectID(id: string): object
-    findOne(filter?: MongoFilter): Promise<object>
-    find(filter?: MongoFilter): Promise<object>
-    updateOne(filter: MongoFilter, update: object, options?: object): Promise<object>
-    updateMany(filter: MongoFilter, update: object, options?: object): Promise<object>
-    editOne(filter: MongoFilter, update: object, options?: object): Promise<object>
-    editMany(filter: MongoFilter, update: object, options?: object): Promise<object>
-    aggregate(pipeline: PipelineItem[], options?: object): Promise<object>
+    insert<T>(list: any[] | any): Promise<any>
+    deleteMany(filter: MongoFilter, options?: any): Promise<any>
+    deleteOne(filter: MongoFilter, options?: any): Promise<any>
+    count(filter?: MongoFilter, options?: any): Promise<number>
+    ObjectID(id: string): any
+    findOne(filter?: MongoFilter): Promise<any>
+    find(filter?: MongoFilter): Promise<any>
+    updateOne(filter: MongoFilter, update: any, options?: any): Promise<any>
+    updateMany(filter: MongoFilter, update: any, options?: any): Promise<any>
+    editOne(filter: MongoFilter, update: any, options?: any): Promise<any>
+    editMany(filter: MongoFilter, update: any, options?: any): Promise<any>
+    aggregate(pipeline: PipelineItem[], options?: any): Promise<any>
     native(cb: Function): Promise<NativeInterface>
-    findRandom(filter: MongoFilter, count: number, options?: object): Promise<object>
-    join(filter: MongoFilter, joinCollection: Collection, joinFiled: string, project: object, options?: object): Promise<object>
+    findRandom(filter: MongoFilter, count: number, options?: any): Promise<any>
+    join(filter: MongoFilter, joinCollection: Collection, joinFiled: string, project: any, options?: any): Promise<any>
     listen(getUpdates: Function, timeout?: number): Listen
   }
 
