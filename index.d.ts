@@ -37,13 +37,13 @@ declare module "just-mongo" {
   }
 
   export class Collection {
-    insert(list: any[] | any): Promise<any>
+    insert(list: any[] | any, options?: any): Promise<any>
     deleteMany(filter: MongoFilter, options?: any): Promise<any>
     deleteOne(filter: MongoFilter, options?: any): Promise<any>
     count(filter?: MongoFilter, options?: any): Promise<number>
     ObjectID(id: string): any
-    findOne(filter?: MongoFilter): Promise<any>
-    find(filter?: MongoFilter): Promise<any>
+    findOne(filter?: MongoFilter, options?: any): Promise<any>
+    find(filter?: MongoFilter, options?: any): Promise<any>
     updateOne(filter: MongoFilter, update: any, options?: any): Promise<any>
     updateMany(filter: MongoFilter, update: any, options?: any): Promise<any>
     editOne(filter: MongoFilter, update: any, options?: any): Promise<any>
