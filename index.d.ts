@@ -32,8 +32,12 @@ declare module "just-mongo" {
     error(cb: Function): Listen;
   }
 
+  export interface joinFiledT {
+    [property: string]: string;
+  }
+
   export class Collection {
-    insert<T>(list: any[] | any): Promise<any>
+    insert(list: any[] | any): Promise<any>
     deleteMany(filter: MongoFilter, options?: any): Promise<any>
     deleteOne(filter: MongoFilter, options?: any): Promise<any>
     count(filter?: MongoFilter, options?: any): Promise<number>
@@ -47,7 +51,7 @@ declare module "just-mongo" {
     aggregate(pipeline: PipelineItem[], options?: any): Promise<any>
     native(cb: Function): Promise<NativeInterface>
     findRandom(filter: MongoFilter, count: number, options?: any): Promise<any>
-    join(filter: MongoFilter, joinCollection: Collection, joinFiled: string, project: any, options?: any): Promise<any>
+    join(filter: MongoFilter, joinCollection: Collection, joinFiled: joinFiledT, project: any, options?: any): Promise<any>
     listen(getUpdates: Function, timeout?: number): Listen
   }
 

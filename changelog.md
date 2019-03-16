@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.2
+- **2.2.4**
+    - Fix types for join engine
 - **2.2.3**
     - Fix types
 - **2.2.2**
