@@ -38,20 +38,20 @@ declare module "just-mongo" {
 
   export class Collection {
     insert(list: any[] | any, options?: any): Promise<any>
-    deleteMany(filter: MongoFilter, options?: any): Promise<any>
-    deleteOne(filter: MongoFilter, options?: any): Promise<any>
+    deleteMany<FT>(filter: FT | MongoFilter, options?: any): Promise<any>
+    deleteOne<FT>(filter: FT | MongoFilter, options?: any): Promise<any>
     count(filter?: MongoFilter, options?: any): Promise<number>
     ObjectID(id: string): any
-    findOne(filter?: MongoFilter, options?: any): Promise<any>
-    find(filter?: MongoFilter, options?: any): Promise<any>
-    updateOne(filter: MongoFilter, update: any, options?: any): Promise<any>
-    updateMany(filter: MongoFilter, update: any, options?: any): Promise<any>
-    editOne(filter: MongoFilter, update: any, options?: any): Promise<any>
-    editMany(filter: MongoFilter, update: any, options?: any): Promise<any>
-    aggregate(pipeline: PipelineItem[], options?: any): Promise<any>
+    findOne<RT, FT>(filter?: RT | FT | MongoFilter, options?: any): Promise<RT>
+    find<RT, FT>(filter?: RT | FT | MongoFilter, options?: any): Promise<RT>
+    updateOne<FT>(filter: FT | MongoFilter, update: any, options?: any): Promise<any>
+    updateMany<FT>(filter: FT | MongoFilter, update: any, options?: any): Promise<any>
+    editOne<FT>(filter: FT | MongoFilter, update: any, options?: any): Promise<any>
+    editMany<FT>(filter: FT | MongoFilter, update: any, options?: any): Promise<any>
+    aggregate<RT, PLT>(pipeline: PLT | PipelineItem[], options?: any): Promise<RT>
     native(cb: Function): Promise<NativeInterface>
-    findRandom(filter: MongoFilter, count: number, options?: any): Promise<any>
-    join(filter: MongoFilter, joinCollection: Collection, joinFiled: joinFiledT, project: any, options?: any): Promise<any>
+    findRandom<RT, FT>(filter: FT | MongoFilter, count: number, options?: any): Promise<RT>
+    join<RT, FT>(filter: FT | MongoFilter, joinCollection: Collection, joinFiled: joinFiledT, project: any, options?: any): Promise<RT>
     listen(getUpdates: Function, timeout?: number): Listen
   }
 
