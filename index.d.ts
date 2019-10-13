@@ -38,20 +38,20 @@ declare module "just-mongo" {
 
   export class Collection {
     insert(list: any[] | any, options?: any): Promise<any>
-    deleteMany(filter: MongoFilter, options?: any): Promise<any>
-    deleteOne(filter: MongoFilter, options?: any): Promise<any>
-    count(filter?: MongoFilter, options?: any): Promise<number>
+    deleteMany<FT = MongoFilter>(filter: FT, options?: any): Promise<any>
+    deleteOne<FT = MongoFilter>(filter: FT, options?: any): Promise<any>
+    count<FT = MongoFilter>(filter?: FT, options?: any): Promise<number>
     ObjectID(id: string): any
-    findOne(filter?: MongoFilter, options?: any): Promise<any>
-    find(filter?: MongoFilter, options?: any): Promise<any>
-    updateOne(filter: MongoFilter, update: any, options?: any): Promise<any>
-    updateMany(filter: MongoFilter, update: any, options?: any): Promise<any>
-    editOne(filter: MongoFilter, update: any, options?: any): Promise<any>
-    editMany(filter: MongoFilter, update: any, options?: any): Promise<any>
-    aggregate(pipeline: PipelineItem[], options?: any): Promise<any>
+    findOne<RT, FT = MongoFilter>(filter?: FT, options?: any): Promise<RT>
+    find<RT, FT = MongoFilter>(filter?: FT, options?: any): Promise<RT>
+    updateOne<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
+    updateMany<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
+    editOne<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
+    editMany<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
+    aggregate<RT, PLT = PipelineItem[]>(pipeline: PLT, options?: any): Promise<RT>
     native(cb: Function): Promise<NativeInterface>
-    findRandom(filter: MongoFilter, count: number, options?: any): Promise<any>
-    join(filter: MongoFilter, joinCollection: Collection, joinFiled: joinFiledT, project: any, options?: any): Promise<any>
+    findRandom<RT, FT = MongoFilter>(filter: FT, count: number, options?: any): Promise<RT>
+    join<RT, FT = MongoFilter>(filter: FT, joinCollection: Collection, joinFiled: joinFiledT, project: any, options?: any): Promise<RT>
     listen(getUpdates: Function, timeout?: number): Listen
   }
 
