@@ -42,8 +42,8 @@ declare module "just-mongo" {
     deleteOne<FT = MongoFilter>(filter: FT, options?: any): Promise<any>
     count<FT = MongoFilter>(filter?: FT, options?: any): Promise<number>
     ObjectID(id: string): any
-    findOne<RT, FT = RT | MongoFilter>(filter?: FT, options?: any): Promise<RT>
-    find<RT, FT = RT | MongoFilter>(filter?: FT, options?: any): Promise<RT>
+    findOne<RT, FT = MongoFilter>(filter?: FT, options?: any): Promise<RT>
+    find<RT, FT = MongoFilter>(filter?: FT, options?: any): Promise<RT>
     updateOne<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
     updateMany<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
     editOne<FT = MongoFilter>(filter: FT, update: any, options?: any): Promise<any>
