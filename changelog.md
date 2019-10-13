@@ -1,6 +1,8 @@
 # Change log 
 
 ## v2.2
+- **2.2.6**
+    - Fix types for methods arguments | Generic
 - **2.2.5**
     - Fix types for methods arguments
 - **2.2.4**
